@@ -1,0 +1,18 @@
+.login_form{
+	background-color: white;
+	width: 500px;
+	margin: auto;
+	display: block;
+	margin-top: 4%;
+	border-radius: 25px;
+}
+.log_iteam{
+	margin-left: 70px;
+}
+.h11{
+	margin: auto;
+	display: block;
+}
+.login_body{
+	background-color: #d2d6de;
+}
