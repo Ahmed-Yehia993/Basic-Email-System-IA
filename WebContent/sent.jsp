@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link href="resources/css/bootstrap.min.css" rel="stylesheet">
 <link href="resources/style.css" rel="stylesheet">
-<title>home</title>
+<title>sent</title>
 
 </head>
 <body class="login_body">
@@ -47,7 +47,10 @@
 		<!-- /.container-fluid --> </nav>
 		<div class="row">
 			<div class="col-md-3">
-				<button type="button" class="btn btn-primary" style="width: 100%">Compose</button>
+				<a href="compose.jsp">
+					<button type="button" class="btn btn-primary" style="width: 100%">
+						Compose</button>
+				</a>
 				<br> <br>
 				<div class="list-group">
 					<a href="home.jsp" class="list-group-item "> Index </a> <a href="sent.jsp"
@@ -63,76 +66,126 @@
 							<td style="color: white">Sender</td>
 							<td style="color: white">subject</td>
 							<td style="color: white">Time</td>
+							<td style="color: white">opertaion</td>
 						</tr>
 					</thead>
 					<tbody>
 						<tr>
-							<td>ahmed</td>
+							<td><a href="#">ahmed</a></td>
 							<td>hello</td>
 							<td>10-12-2015</td>
+							<td>
+								<button class="btn btn-danger">delete</button>
+								<button class="btn btn-info">archive</button>
+							</td>
 						</tr>
 						<tr>
-							<td>ahmed</td>
+							<td><a href="#">ahmed</a></td>
 							<td>hello</td>
 							<td>10-12-2015</td>
+							<td>
+								<button class="btn btn-danger">delete</button>
+								<button class="btn btn-info">archive</button>
+							</td>
 						</tr>
 						<tr>
-							<td>ahmed</td>
+							<td><a href="#">ahmed</a></td>
 							<td>hello</td>
 							<td>10-12-2015</td>
+							<td>
+								<button class="btn btn-danger">delete</button>
+								<button class="btn btn-info">archive</button>
+							</td>
 						</tr>
 						<tr>
-							<td>ahmed</td>
+							<td><a href="#">ahmed</a></td>
 							<td>hello</td>
 							<td>10-12-2015</td>
+							<td>
+								<button class="btn btn-danger">delete</button>
+								<button class="btn btn-info">archive</button>
+							</td>
 						</tr>
 						<tr>
-							<td>ahmed</td>
+							<td><a href="#">ahmed</a></td>
 							<td>hello</td>
 							<td>10-12-2015</td>
+							<td>
+								<button class="btn btn-danger">delete</button>
+								<button class="btn btn-info">archive</button>
+							</td>
 						</tr>
 						<tr>
-							<td>ahmed</td>
+							<td><a href="#">ahmed</a></td>
 							<td>hello</td>
 							<td>10-12-2015</td>
+							<td>
+								<button class="btn btn-danger">delete</button>
+								<button class="btn btn-info">archive</button>
+							</td>
 						</tr>
 						<tr>
-							<td>ahmed</td>
+							<td><a href="#">ahmed</a></td>
 							<td>hello</td>
 							<td>10-12-2015</td>
+							<td>
+								<button class="btn btn-danger">delete</button>
+								<button class="btn btn-info">archive</button>
+							</td>
 						</tr>
 						<tr>
-							<td>ahmed</td>
+							<td><a href="#">ahmed</a></td>
 							<td>hello</td>
 							<td>10-12-2015</td>
+							<td>
+								<button class="btn btn-danger">delete</button>
+								<button class="btn btn-info">archive</button>
+							</td>
 						</tr>
 						<tr>
-							<td>ahmed</td>
+							<td><a href="#">ahmed</a></td>
 							<td>hello</td>
 							<td>10-12-2015</td>
+							<td>
+								<button class="btn btn-danger">delete</button>
+								<button class="btn btn-info">archive</button>
+							</td>
 						</tr>
 						<tr>
-							<td>ahmed</td>
+							<td><a href="#">ahmed</a></td>
 							<td>hello</td>
 							<td>10-12-2015</td>
+							<td>
+								<button class="btn btn-danger">delete</button>
+								<button class="btn btn-info">archive</button>
+							</td>
 						</tr>
 						<tr>
-							<td>ahmed</td>
+							<td><a href="#">ahmed</a></td>
 							<td>hello</td>
 							<td>10-12-2015</td>
+							<td>
+								<button class="btn btn-danger">delete</button>
+								<button class="btn btn-info">archive</button>
+							</td>
 						</tr>
 						<tr>
-							<td>ahmed</td>
+							<td><a href="#">ahmed</a></td>
 							<td>hello</td>
 							<td>10-12-2015</td>
+							<td>
+								<button class="btn btn-danger">delete</button>
+								<button class="btn btn-info">archive</button>
+							</td>
 						</tr>
-						
+
 					</tbody>
 					<tfoot>
 						<tr class="infoo">
 							<td style="color: white">Sender</td>
 							<td style="color: white">subject</td>
 							<td style="color: white">Time</td>
+							<td style="color: white">opertaion</td>
 						</tr>
 					</tfoot>
 				</table>
