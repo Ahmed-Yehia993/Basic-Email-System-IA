@@ -16,3 +16,23 @@
 .login_body{
 	background-color: #d2d6de;
 }
+.log_out{
+	margin-right: -630px; 
+	float: right;
+}
+
+.profile{
+	margin-right: -580px;
+	float: right;
+}
+.infoo{
+	
+	background-color: #337ab7;
+}
+.navbar-inverse {
+    background-color: #337ab7;
+    border-color: #337ab7;
+}
+.navbar-inverse .navbar-brand {
+    color: #ffffff;
+}
