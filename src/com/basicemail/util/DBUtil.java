@@ -17,7 +17,6 @@ public class DBUtil {
 		try {
 			Class.forName(DRIVER_NAME).newInstance();
 		} catch (InstantiationException | IllegalAccessException | ClassNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
