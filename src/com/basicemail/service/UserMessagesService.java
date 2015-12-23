@@ -30,16 +30,16 @@ public class UserMessagesService {
 		return userMessagesDao.getUserTrashed(userID);
 	}
 
-	public void ArchiveThreadMessages(int threadID) throws SQLException {
-		userMessagesDao.ArchiveThreadMessages(threadID);
+	public void ArchiveThreadMessages(int userID, int threadID) throws SQLException {
+		userMessagesDao.ArchiveThreadMessages(userID, threadID);
 	}
 
-	public void DeleteThreadMessages(int threadID) throws SQLException {
-		userMessagesDao.DeleteThreadMessages(threadID);
+	public void DeleteThreadMessages(int userID, int threadID) throws SQLException {
+		userMessagesDao.DeleteThreadMessages(userID, threadID);
 	}
 
-	public void MarkThreadASReaded(int threadID) throws SQLException {
-		userMessagesDao.MarkThreadASReaded(threadID);
+	public void MarkThreadASReaded(int userID, int threadID) throws SQLException {
+		userMessagesDao.MarkThreadASReaded(userID, threadID);
 	}
 
 	public List<ThreadMessageDto> getAllMessagesOfThreadByThreadID(int threadID) throws SQLException {

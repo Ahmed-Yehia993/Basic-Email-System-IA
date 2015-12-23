@@ -6,7 +6,7 @@ public class MessageDto {
 
 	private int threadMessagesNumber;
 
-	private User receiver;
+	// private User receiver;
 
 	private User sender;
 
@@ -16,10 +16,9 @@ public class MessageDto {
 
 	}
 
-	public MessageDto(int threadID, User receiver, User sender, Message message, int threadMessagesNumber) {
+	public MessageDto(int threadID, User sender, Message message, int threadMessagesNumber) {
 		super();
 		this.threadID = threadID;
-		this.receiver = receiver;
 		this.sender = sender;
 		this.message = message;
 		this.threadMessagesNumber = threadMessagesNumber;
@@ -31,14 +30,6 @@ public class MessageDto {
 
 	public void setThreadID(int threadID) {
 		this.threadID = threadID;
-	}
-
-	public User getReceiver() {
-		return receiver;
-	}
-
-	public void setReceiver(User receiver) {
-		this.receiver = receiver;
 	}
 
 	public User getSender() {
