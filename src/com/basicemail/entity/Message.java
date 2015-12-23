@@ -52,6 +52,15 @@ public class Message {
 		this.isArchived = isArchived;
 	}
 
+	public Message(int id, int senderId, int threadMsgId, String subject, String body, Timestamp timestap) {
+		this.id = id;
+		this.senderId = senderId;
+		this.threadMsgId = threadMsgId;
+		this.subject = subject;
+		this.body = body; 
+		this.timestap = timestap;
+	}
+
 	public int getId() {
 		return id;
 	}

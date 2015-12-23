@@ -37,6 +37,13 @@ public class User {
 		this.email = email;
 	}
 
+	public User(int id, String firstname, String lastname, String email) {
+		this.id = id;
+		this.firstname = firstname;
+		this.lastname = lastname;
+		this.email = email;
+	}
+
 	public int getId() {
 		return id;
 	}
