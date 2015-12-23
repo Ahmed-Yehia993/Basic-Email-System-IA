@@ -67,10 +67,10 @@ public class UserMessagesDao {
 	public List<MessageDto> getUserSent(int userID) throws SQLException {
 
 		String selectSQL = "SELECT COUNT(recipient_message.thread_msg_id) as 'threadMessagesNumber' , "
-				+ "MAX(message.id) as 'msgID' , recipient_message.thread_msg_id as 'threadID', "
+				+ "MAX(message.id) as 'msgID' , recipient_message.thread_msg_id as 'threadID', recipient_message.reciver_id as 'receiverID',"
 				+ "user.firstname as 'fname' , user.lastname as 'lname' , user.email as 'email' "
 				+ "FROM recipient_message INNER JOIN message ON recipient_message.msg_id = message.id "
-				+ "INNER JOIN user ON message.sender_id = user.id "
+				+ "INNER JOIN user ON recipient_message.reciver_id = user.id "
 				+ "WHERE (recipient_message.reciver_id = ? or message.sender_id  = ? ) AND recipient_message.thread_msg_id IN ( "
 				+ "SELECT message.thread_msg_id FROM message WHERE message.sender_id = ? ) "
 				+ "AND recipient_message.is_archived = 0 AND "
@@ -81,8 +81,9 @@ public class UserMessagesDao {
 		Connection con = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
-		User receiver = new User();
-		receiver.setId(userID);
+
+		User sender = new User();
+		sender.setId(userID);
 
 		try {
 			con = DBUtil.getConnection();
@@ -98,12 +99,13 @@ public class UserMessagesDao {
 
 				int msgID = rs.getInt("msgID");
 
+				int receiverID = rs.getInt("receiverID");
 				String fname = rs.getString("fname");
 				String lname = rs.getString("lname");
 				String email = rs.getString("email");
 
 				Message message = getMessageBYID(msgID);
-				User sender = new User(message.getSenderId(), fname, lname, email);
+				User receiver = new User(receiverID, fname, lname, email);
 				MessageDto messageDto = new MessageDto(threadID, receiver, sender, message, threadMessagesNumber);
 				list.add(messageDto);
 			}
@@ -242,6 +244,72 @@ public class UserMessagesDao {
 			return list;
 		} finally {
 			DBUtil.cleanUp(con, ps, rs);
+		}
+	}
+
+	public void ArchiveThreadMessages(int threadID) throws SQLException {
+		String recipient_message = "UPDATE recipient_message SET recipient_message.is_archived = 1 WHERE recipient_message.thread_msg_id = ?;";
+		String message = "UPDATE message SET message.is_archived = 1 WHERE message.thread_msg_id = ?;";
+
+		Connection con = null;
+		PreparedStatement ps1 = null;
+		PreparedStatement ps2 = null;
+		try {
+			con = DBUtil.getConnection();
+			ps1 = con.prepareStatement(recipient_message);
+			ps1.setInt(1, threadID);
+			ps1.executeUpdate();
+
+			ps2 = con.prepareStatement(message);
+			ps2.setInt(1, threadID);
+			ps2.executeUpdate();
+		} finally {
+			DBUtil.cleanUp(con, ps1, null);
+			DBUtil.cleanUp(con, ps2, null);
+		}
+	}
+
+	public void DeleteThreadMessages(int threadID) throws SQLException {
+		String recipient_message = "UPDATE recipient_message SET recipient_message.is_deleted = 1 WHERE recipient_message.thread_msg_id = ?;";
+		String message = "UPDATE message SET message.is_deleted = 1 WHERE message.thread_msg_id = ?;";
+
+		Connection con = null;
+		PreparedStatement ps1 = null;
+		PreparedStatement ps2 = null;
+		try {
+			con = DBUtil.getConnection();
+			ps1 = con.prepareStatement(recipient_message);
+			ps1.setInt(1, threadID);
+			ps1.executeUpdate();
+
+			ps2 = con.prepareStatement(message);
+			ps2.setInt(1, threadID);
+			ps2.executeUpdate();
+		} finally {
+			DBUtil.cleanUp(con, ps1, null);
+			DBUtil.cleanUp(con, ps2, null);
+		}
+	}
+
+	public void MarkThreadASReaded(int threadID) throws SQLException {
+		String recipient_message = "UPDATE recipient_message SET recipient_message.is_readed = 1 WHERE recipient_message.thread_msg_id = ?;";
+		String message = "UPDATE message SET message.is_readed = 1 WHERE message.thread_msg_id = ?;";
+
+		Connection con = null;
+		PreparedStatement ps1 = null;
+		PreparedStatement ps2 = null;
+		try {
+			con = DBUtil.getConnection();
+			ps1 = con.prepareStatement(recipient_message);
+			ps1.setInt(1, threadID);
+			ps1.executeUpdate();
+
+			ps2 = con.prepareStatement(message);
+			ps2.setInt(1, threadID);
+			ps2.executeUpdate();
+		} finally {
+			DBUtil.cleanUp(con, ps1, null);
+			DBUtil.cleanUp(con, ps2, null);
 		}
 	}
 }

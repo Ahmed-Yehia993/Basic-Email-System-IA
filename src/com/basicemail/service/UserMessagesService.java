@@ -16,16 +16,28 @@ public class UserMessagesService {
 	public static List<MessageDto> getUserInbox(int userID) throws SQLException {
 		return userMessagesDao.getUserInbox(userID);
 	}
-	
+
 	public static List<MessageDto> getUserSent(int userID) throws SQLException {
 		return userMessagesDao.getUserSent(userID);
 	}
-	
+
 	public static List<MessageDto> getUserArchived(int userID) throws SQLException {
 		return userMessagesDao.getUserArchived(userID);
 	}
-	
+
 	public static List<MessageDto> getUserTrashed(int userID) throws SQLException {
 		return userMessagesDao.getUserTrashed(userID);
+	}
+
+	public void ArchiveThreadMessages(int threadID) throws SQLException {
+		userMessagesDao.ArchiveThreadMessages(threadID);
+	}
+	
+	public void DeleteThreadMessages(int threadID) throws SQLException {
+		userMessagesDao.DeleteThreadMessages(threadID);
+	}
+	
+	public void MarkThreadASReaded(int threadID) throws SQLException {
+		userMessagesDao.MarkThreadASReaded(threadID);
 	}
 }
