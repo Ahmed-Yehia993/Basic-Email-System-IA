@@ -47,7 +47,7 @@
 		<!-- /.container-fluid --> </nav>
 		<div class="row">
 			<div class="col-md-3">
-				
+
 				<br> <br>
 				<div class="list-group">
 					<a href="home.jsp" class="list-group-item "> Index </a> <a
@@ -57,7 +57,29 @@
 				</div>
 			</div>
 			<div class="col-md-9">
-				
+				<form>
+					<table>
+						<tr>
+							<td>To </td>
+							<td style="width: 100%;"><input type="text" class="form-control" placeholder="TO"
+								aria-describedby="basic-addon1"></td>
+						</tr>
+
+						<tr>
+							<td>subject </td>
+							<td style="width: 100%;"><input type="text" class="form-control"
+								placeholder="Subject" aria-describedby="basic-addon1"></td>
+						</tr>
+						<tr>
+							<td>Message </td>
+							<td style="width: 100%;"><textarea rows="14" cols="110" placeholder="Message"></textarea></td>
+						</tr>
+						<tr>
+
+						</tr>
+					</table>
+					<button type="submit" class="btn btn-primary" style="float: right;">Send</button>
+				</form>
 			</div>
 		</div>
 		<script src="resources/js/bootstrap.min.js"></script>
