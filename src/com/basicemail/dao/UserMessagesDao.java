@@ -72,7 +72,7 @@ public class UserMessagesDao {
 				Message message = getMessageBYID(msgID);
 				User sender = getUserByID(message.getSenderId());
 
-				int threadMessagesNumber = getAllMessagesOfThreadByThreadID(thread_msg_id).size();
+				int threadMessagesNumber = getAllMessagesOfThreadByThreadID(userID, thread_msg_id).size();
 				MessageDto messageDto = new MessageDto(thread_msg_id, sender, message, threadMessagesNumber);
 				list.add(messageDto);
 			}
@@ -111,7 +111,7 @@ public class UserMessagesDao {
 				Message message = getMessageBYID(msgID);
 				User sender = getUserByID(message.getSenderId());
 
-				int threadMessagesNumber = getAllMessagesOfThreadByThreadID(thread_msg_id).size();
+				int threadMessagesNumber = getAllMessagesOfThreadByThreadID(userID, thread_msg_id).size();
 				MessageDto messageDto = new MessageDto(thread_msg_id, sender, message, threadMessagesNumber);
 				list.add(messageDto);
 			}
@@ -190,7 +190,7 @@ public class UserMessagesDao {
 				Message message = getMessageBYID(msgID);
 				User sender = getUserByID(message.getSenderId());
 
-				int threadMessagesNumber = getAllMessagesOfThreadByThreadID(thread_msg_id).size();
+				int threadMessagesNumber = getAllMessagesOfThreadByThreadID(userID, thread_msg_id).size();
 				MessageDto messageDto = new MessageDto(thread_msg_id, sender, message, threadMessagesNumber);
 				list.add(messageDto);
 			}
@@ -231,7 +231,7 @@ public class UserMessagesDao {
 				Message message = getMessageBYID(msgID);
 				User sender = getUserByID(message.getSenderId());
 
-				int threadMessagesNumber = getAllMessagesOfThreadByThreadID(thread_msg_id).size();
+				int threadMessagesNumber = getAllMessagesOfThreadByThreadID(userID, thread_msg_id).size();
 				MessageDto messageDto = new MessageDto(thread_msg_id, sender, message, threadMessagesNumber);
 				list.add(messageDto);
 			}
@@ -348,10 +348,10 @@ public class UserMessagesDao {
 		}
 	}
 
-	public List<ThreadMessageDto> getAllMessagesOfThreadByThreadID(int threadID) throws SQLException {
+	public List<ThreadMessageDto> getAllMessagesOfThreadByThreadID(int userID, int threadID) throws SQLException {
 		String selectSQL = "SELECT DISTINCT message.id FROM message "
 				+ "INNER JOIN recipient_message ON recipient_message.msg_id = message.id "
-				+ "WHERE message.thread_msg_id = 1 AND (recipient_message.reciver_id = 1 OR message.sender_id = 1) "
+				+ "WHERE message.thread_msg_id = ? AND (recipient_message.reciver_id = ? OR message.sender_id = ?) "
 				+ "AND recipient_message.is_archived = 0 AND recipient_message.is_trashed = 0 AND recipient_message.is_deleted = 0 "
 				+ "AND message.is_archived = 0 AND message.is_trashed = 0 AND message.is_deleted = 0 "
 				+ "ORDER BY message.timestap DESC;";
@@ -365,7 +365,8 @@ public class UserMessagesDao {
 			con = DBUtil.getConnection();
 			ps = con.prepareStatement(selectSQL);
 			ps.setInt(1, threadID);
-
+			ps.setInt(2, userID);
+			ps.setInt(3, userID);
 			rs = ps.executeQuery();
 
 			while (rs.next()) {

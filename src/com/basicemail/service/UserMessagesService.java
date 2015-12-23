@@ -42,7 +42,7 @@ public class UserMessagesService {
 		userMessagesDao.MarkThreadASReaded(userID, threadID);
 	}
 
-	public List<ThreadMessageDto> getAllMessagesOfThreadByThreadID(int threadID) throws SQLException {
-		return userMessagesDao.getAllMessagesOfThreadByThreadID(threadID);
+	public List<ThreadMessageDto> getAllMessagesOfThreadByThreadID(int userID, int threadID) throws SQLException {
+		return userMessagesDao.getAllMessagesOfThreadByThreadID(userID, threadID);
 	}
 }
