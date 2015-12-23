@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.basicemail.dao.UserMessagesDao;
 import com.basicemail.entity.MessageDto;
+import com.basicemail.entity.ThreadMessageDto;
 
 public class UserMessagesService {
 	private static UserMessagesDao userMessagesDao;
@@ -32,12 +33,16 @@ public class UserMessagesService {
 	public void ArchiveThreadMessages(int threadID) throws SQLException {
 		userMessagesDao.ArchiveThreadMessages(threadID);
 	}
-	
+
 	public void DeleteThreadMessages(int threadID) throws SQLException {
 		userMessagesDao.DeleteThreadMessages(threadID);
 	}
-	
+
 	public void MarkThreadASReaded(int threadID) throws SQLException {
 		userMessagesDao.MarkThreadASReaded(threadID);
+	}
+
+	public List<ThreadMessageDto> getAllMessagesOfThreadByThreadID(int threadID) throws SQLException {
+		return userMessagesDao.getAllMessagesOfThreadByThreadID(threadID);
 	}
 }

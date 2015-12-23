@@ -10,6 +10,7 @@ import java.util.List;
 
 import com.basicemail.entity.Message;
 import com.basicemail.entity.MessageDto;
+import com.basicemail.entity.ThreadMessageDto;
 import com.basicemail.entity.User;
 import com.basicemail.util.DBUtil;
 
@@ -310,6 +311,69 @@ public class UserMessagesDao {
 		} finally {
 			DBUtil.cleanUp(con, ps1, null);
 			DBUtil.cleanUp(con, ps2, null);
+		}
+	}
+
+	public static String getAllMessageReceivers(int msgID, int threadID) throws SQLException {
+		String selectSQL = "SELECT DISTINCT(user.email) FROM recipient_message "
+				+ "INNER JOIN user ON user.id = recipient_message.reciver_id "
+				+ "WHERE recipient_message.thread_msg_id = ? AND recipient_message.msg_id = ?;";
+
+		Connection con = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+
+		try {
+			con = DBUtil.getConnection();
+			ps = con.prepareStatement(selectSQL);
+			ps.setInt(1, threadID);
+			ps.setInt(2, msgID);
+
+			rs = ps.executeQuery();
+
+			String receiver = "";
+
+			while (rs.next())
+				if (rs.isLast())
+					receiver = rs.getString("email");
+				else
+					receiver = rs.getString("email") + " , ";
+
+			return receiver;
+		} finally {
+			DBUtil.cleanUp(con, ps, rs);
+		}
+	}
+
+	public List<ThreadMessageDto> getAllMessagesOfThreadByThreadID(int threadID) throws SQLException {
+		String selectSQL = "SELECT user.email as 'email' , message.id FROM message INNER JOIN user ON user.id = message.sender_id "
+				+ "WHERE message.thread_msg_id = ? ORDER BY message.timestap DESC;";
+
+		List<ThreadMessageDto> list = new ArrayList<ThreadMessageDto>();
+		Connection con = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+
+		try {
+			con = DBUtil.getConnection();
+			ps = con.prepareStatement(selectSQL);
+			ps.setInt(1, threadID);
+
+			rs = ps.executeQuery();
+
+			while (rs.next()) {
+				int msgID = rs.getInt("id");
+				String sender = rs.getString("email");
+
+				String receiver = getAllMessageReceivers(msgID, threadID);
+				Message message = getMessageBYID(msgID);
+
+				ThreadMessageDto messageDto = new ThreadMessageDto(threadID, receiver, sender, message);
+				list.add(messageDto);
+			}
+			return list;
+		} finally {
+			DBUtil.cleanUp(con, ps, rs);
 		}
 	}
 }
