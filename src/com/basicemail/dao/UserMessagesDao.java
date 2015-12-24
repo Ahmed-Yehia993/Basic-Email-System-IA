@@ -371,10 +371,10 @@ public class UserMessagesDao {
 
 			while (rs.next()) {
 				int msgID = rs.getInt("id");
-				String sender = rs.getString("email");
 
 				String receiver = getAllMessageReceivers(msgID, threadID);
 				Message message = getMessageBYID(msgID);
+				String sender = String.valueOf(message.getSenderId());
 
 				ThreadMessageDto messageDto = new ThreadMessageDto(threadID, receiver, sender, message);
 				list.add(messageDto);
