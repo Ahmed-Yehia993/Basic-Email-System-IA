@@ -8,15 +8,15 @@ import java.sql.SQLException;
 
 public class DBUtil {
 
-	final static String DB_URL = "jdbc:mysql://localhost:3306/ia-basic-email?useUnicode=true&characterEncoding=utf8";
+	final static String DB_URL = "jdbc:mysql://localhost:3306/ia-basic-email?useUnicode=yes&characterEncoding=UTF-8";
 	final static String DB_USER_NAME = "root";
 	final static String DB_PASSWORD = "root";
 	final static String DRIVER_NAME = "com.mysql.jdbc.Driver";
 
 	static {
 		try {
-			Class.forName(DRIVER_NAME).newInstance();
-		} catch (InstantiationException | IllegalAccessException | ClassNotFoundException e) {
+			Class.forName(DRIVER_NAME);
+		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		}
 	}

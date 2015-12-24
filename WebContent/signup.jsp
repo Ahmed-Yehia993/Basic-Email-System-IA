@@ -6,7 +6,8 @@
 <link href="resources/css/bootstrap.min.css" rel="stylesheet">
 <link href="resources/style.css" rel="stylesheet">
 <title>Registration</title>
-
+<script src="resources/js/bootstrap.min.js"></script>
+<script src="resources/js/jquery-1.11.3.min.js"></script>
 </head>
 <body class="login_body">
 	<div class="container">
@@ -14,30 +15,44 @@
 			<strong>Basic</strong> Email
 		</h1>
 		<div class="login_form">
-			<form class="form-horizontal">
+			<form class="form-horizontal" method="post" action="Signup"
+				onsubmit="return validate()">
 				<br></br>
 				<div class="form-group ">
-					<label for="fullName"
-						class="col-md-3 .col-md-offset-3 control-label">Name</label>
+					<label for="firstName"
+						class="col-md-3 .col-md-offset-3 control-label">First Name</label>
 					<div class="col-md-3 .col-md-offset-3">
-						<input type="text" class="form-control " id="fullName"
-							placeholder="Full Name" style="width: 300px">
+						<input type="text" class="form-control" name="firstName"
+							id="firstName" placeholder="First Name" style="width: 300px"
+							required>
 					</div>
 				</div>
+				<div class="form-group ">
+					<label for="secondName"
+						class="col-md-3 .col-md-offset-3 control-label">Last Name</label>
+					<div class="col-md-3 .col-md-offset-3">
+						<input type="text" class="form-control" name="secondName"
+							id="secondName" placeholder="Last Name" style="width: 300px"
+							required>
+					</div>
+				</div>
+
 				<div class="form-group ">
 					<label for="inputEmail3"
 						class="col-md-3 .col-md-offset-3 control-label">Email</label>
 					<div class="col-md-3 .col-md-offset-3">
-						<input type="email" class="form-control " id="inputEmail3"
-							placeholder="Email" style="width: 300px">
+						<input type="email" class="form-control" name="inputEmail3"
+							id="inputEmail3" placeholder="Email" style="width: 300px"
+							required>
 					</div>
 				</div>
 				<div class="form-group">
 					<label for="inputPassword3"
 						class="col-md-3 .col-md-offset-3 control-label">Password</label>
 					<div class="col-md-3 .col-md-offset-3">
-						<input type="password" class="form-control" id="inputPassword3"
-							placeholder="Password" style="width: 300px">
+						<input type="password" class="form-control" name="inputPassword3"
+							id="inputPassword3" placeholder="Password" style="width: 300px"
+							required>
 					</div>
 				</div>
 				<div class="form-group">
@@ -45,10 +60,12 @@
 						class="col-md-3 .col-md-offset-3 control-label">re
 						Password</label>
 					<div class="col-md-3 .col-md-offset-3">
-						<input type="password" class="form-control" id="inputPassword4"
-							placeholder="Retype Password" style="width: 300px">
+						<input type="password" class="form-control" name="inputPassword4"
+							id="inputPassword4" placeholder="Retype Password"
+							style="width: 300px" required>
 					</div>
 				</div>
+				<p id="ajaxGetUserServletResponse" style="background-color: red;"></p>
 
 				<div class="form-group">
 					<div class="col-sm-offset-2 col-sm-10">
@@ -62,7 +79,42 @@
 			</form>
 		</div>
 	</div>
-	<script src="resources/js/bootstrap.min.js"></script>
-	<script src="resources/js/jquery-1.11.3.min.js"></script>
+	<script type="text/javascript">
+		function validate() {
+			var pass = document.getElementById("inputPassword3").value;
+			var repass = document.getElementById("inputPassword4").value;
+
+			var re = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}$/;
+			var res = re.test(pass);
+			var x = document.getElementById("ajaxGetUserServletResponse").innerHTML;
+			if (x.length > 0)
+				return false;
+			
+			if (res == false) {
+				alert("your password should contain at least 6 charachter one upper case and one lower case and one number");
+				return false;
+			} else {
+				if (pass != repass) {
+					alert("the password and repassword should be the same");
+					return false;
+				} else{
+					alert("your account added successfully ;)");
+					return true;}
+
+			}
+
+		}
+
+		$(document).ready(function() {
+			$('#inputEmail3').blur(function(event) {
+				var name = $('#inputEmail3').val();
+				$.get('EmailAlreadyExistServlet', {
+					Email : name
+				}, function(responseText) {
+					$('#ajaxGetUserServletResponse').text(responseText);
+				});
+			});
+		});
+	</script>
 </body>
 </html>

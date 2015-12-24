@@ -44,6 +44,12 @@ public class User {
 		this.email = email;
 	}
 
+	@Override
+	public String toString() {
+		return "User [id=" + id + ", firstname=" + firstname + ", lastname=" + lastname + ", password=" + password
+				+ ", photourl=" + photourl + ", phone=" + phone + ", email=" + email + "]";
+	}
+
 	public int getId() {
 		return id;
 	}
