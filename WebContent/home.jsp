@@ -1,4 +1,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<%@page import="com.basicemail.entity.MessageDto"%>
+<%@page import="java.util.List"%>
+<%@page import="com.basicemail.service.UserMessagesService"%>
 <%@page import="com.basicemail.entity.User"%>
 <html>
 <head>
@@ -13,6 +16,8 @@
 	<div class="container">
 		<%
 			Object use = session.getAttribute("logedInUserId");
+			String id = use.toString();
+			int userId = Integer.parseInt(id);
 			//	out.print(use);
 		%>
 		<nav class="navbar navbar-inverse">
@@ -66,7 +71,7 @@
 					<a href="home.jsp" class="list-group-item active"> Index </a> <a
 						href="sent.jsp" class="list-group-item">Sent</a> <a
 						href="archived.jsp" class="list-group-item">Archived</a> <a
-						href="trach.jsp" class="list-group-item">Trach</a>
+						href="trash.jsp" class="list-group-item">Trash</a>
 				</div>
 			</div>
 			<div class="col-md-9">
@@ -79,116 +84,26 @@
 							<td style="color: white">opertaion</td>
 						</tr>
 					</thead>
-					<tbody>
-						<tr>
-							<td><a href="#">ahmed</a></td>
-							<td>hello</td>
-							<td>10-12-2015</td>
-							<td>
-								<button class="btn btn-danger">delete</button>
-								<button class="btn btn-info">archive</button>
-							</td>
-						</tr>
-						<tr>
-							<td><a href="#">ahmed</a></td>
-							<td>hello</td>
-							<td>10-12-2015</td>
-							<td>
-								<button class="btn btn-danger">delete</button>
-								<button class="btn btn-info">archive</button>
-							</td>
-						</tr>
-						<tr>
-							<td><a href="#">ahmed</a></td>
-							<td>hello</td>
-							<td>10-12-2015</td>
-							<td>
-								<button class="btn btn-danger">delete</button>
-								<button class="btn btn-info">archive</button>
-							</td>
-						</tr>
-						<tr>
-							<td><a href="#">ahmed</a></td>
-							<td>hello</td>
-							<td>10-12-2015</td>
-							<td>
-								<button class="btn btn-danger">delete</button>
-								<button class="btn btn-info">archive</button>
-							</td>
-						</tr>
-						<tr>
-							<td><a href="#">ahmed</a></td>
-							<td>hello</td>
-							<td>10-12-2015</td>
-							<td>
-								<button class="btn btn-danger">delete</button>
-								<button class="btn btn-info">archive</button>
-							</td>
-						</tr>
-						<tr>
-							<td><a href="#">ahmed</a></td>
-							<td>hello</td>
-							<td>10-12-2015</td>
-							<td>
-								<button class="btn btn-danger">delete</button>
-								<button class="btn btn-info">archive</button>
-							</td>
-						</tr>
-						<tr>
-							<td><a href="#">ahmed</a></td>
-							<td>hello</td>
-							<td>10-12-2015</td>
-							<td>
-								<button class="btn btn-danger">delete</button>
-								<button class="btn btn-info">archive</button>
-							</td>
-						</tr>
-						<tr>
-							<td><a href="#">ahmed</a></td>
-							<td>hello</td>
-							<td>10-12-2015</td>
-							<td>
-								<button class="btn btn-danger">delete</button>
-								<button class="btn btn-info">archive</button>
-							</td>
-						</tr>
-						<tr>
-							<td><a href="#">ahmed</a></td>
-							<td>hello</td>
-							<td>10-12-2015</td>
-							<td>
-								<button class="btn btn-danger">delete</button>
-								<button class="btn btn-info">archive</button>
-							</td>
-						</tr>
-						<tr>
-							<td><a href="#">ahmed</a></td>
-							<td>hello</td>
-							<td>10-12-2015</td>
-							<td>
-								<button class="btn btn-danger">delete</button>
-								<button class="btn btn-info">archive</button>
-							</td>
-						</tr>
-						<tr>
-							<td><a href="#">ahmed</a></td>
-							<td>hello</td>
-							<td>10-12-2015</td>
-							<td>
-								<button class="btn btn-danger">delete</button>
-								<button class="btn btn-info">archive</button>
-							</td>
-						</tr>
-						<tr>
-							<td><a href="#">ahmed</a></td>
-							<td>hello</td>
-							<td>10-12-2015</td>
-							<td>
-								<button class="btn btn-danger">delete</button>
-								<button class="btn btn-info">archive</button>
-							</td>
-						</tr>
 
+					<tbody>
+						<%
+							UserMessagesService s = new UserMessagesService();
+						
+							List<MessageDto> inbox = s.getUserInbox(userId);
+							for (int i = 0; i < inbox.size(); i++) {
+						%>
+						<tr>
+							<td><a href="#"><%=inbox.get(i).getSender().getFirstname() + " (" + inbox.get(i).getThreadMessagesNumber() + ")"%></a></td>
+							<td><%=inbox.get(i).getMessage().getSubject()%></td>
+							<td><%=inbox.get(i).getMessage().getTimestap()%></td>
+							<td>
+								<button class="btn btn-danger">delete</button>
+								<button class="btn btn-info">archive</button>
+							</td>
+						</tr>
+						<%
+							}
+						%>
 					</tbody>
 					<tfoot>
 						<tr class="infoo">

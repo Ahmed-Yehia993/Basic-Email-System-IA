@@ -15,6 +15,7 @@ public class UserMessagesService {
 	}
 
 	public static List<MessageDto> getUserInbox(int userID) throws SQLException {
+		System.out.println(userID);
 		return userMessagesDao.getUserInbox(userID);
 	}
 

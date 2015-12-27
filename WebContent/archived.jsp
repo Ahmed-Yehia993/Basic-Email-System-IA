@@ -1,4 +1,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<%@page import="com.basicemail.entity.MessageDto"%>
+<%@page import="java.util.List"%>
+<%@page import="com.basicemail.service.UserMessagesService"%>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -10,6 +13,12 @@
 </head>
 <body class="login_body">
 	<div class="container">
+		<%
+			Object use = session.getAttribute("logedInUserId");
+			String id = use.toString();
+			int userId = Integer.parseInt(id);
+			//	out.print(use);
+		%>
 		<nav class="navbar navbar-inverse">
 		<div class="container-fluid">
 			<!-- Brand and toggle get grouped for better mobile display -->
@@ -60,7 +69,7 @@
 					<a href="home.jsp" class="list-group-item "> Index </a> <a
 						href="sent.jsp" class="list-group-item ">Sent</a> <a
 						href="archived.jsp" class="list-group-item active">Archived</a> <a
-						href="trach.jsp" class="list-group-item">Trach</a>
+						href="trash.jsp" class="list-group-item">Trash</a>
 				</div>
 			</div>
 			<div class="col-md-9">
@@ -74,102 +83,21 @@
 						</tr>
 					</thead>
 					<tbody>
+					<%
+					    UserMessagesService s = new UserMessagesService();
+						List<MessageDto> inbox = s.getUserArchived(userId);
+						for(int i =0;i<inbox.size();i++){
+					%>
 						<tr>
-							<td><a href="#">ahmed</a></td>
-							<td>hello</td>
-							<td>10-12-2015</td>
+							<td><a href="#"><%=inbox.get(i).getSender().getFirstname()+" ("+inbox.get(i).getThreadMessagesNumber()+")" %></a></td>
+							<td><%=inbox.get(i).getMessage().getSubject() %></td>
+							<td><%=inbox.get(i).getMessage().getTimestap() %></td>
 							<td>
 								<button class="btn btn-danger">delete</button>
 							</td>
 						</tr>
-						<tr>
-							<td><a href="#">ahmed</a></td>
-							<td>hello</td>
-							<td>10-12-2015</td>
-							<td>
-								<button class="btn btn-danger">delete</button>
-							</td>
-						</tr>
-						<tr>
-							<td><a href="#">ahmed</a></td>
-							<td>hello</td>
-							<td>10-12-2015</td>
-							<td>
-								<button class="btn btn-danger">delete</button>
-							</td>
-						</tr>
-						<tr>
-							<td><a href="#">ahmed</a></td>
-							<td>hello</td>
-							<td>10-12-2015</td>
-							<td>
-								<button class="btn btn-danger">delete</button>
-							</td>
-						</tr>
-						<tr>
-							<td><a href="#">ahmed</a></td>
-							<td>hello</td>
-							<td>10-12-2015</td>
-							<td>
-								<button class="btn btn-danger">delete</button>
-							</td>
-						</tr>
-						<tr>
-							<td><a href="#">ahmed</a></td>
-							<td>hello</td>
-							<td>10-12-2015</td>
-							<td>
-								<button class="btn btn-danger">delete</button>
-							</td>
-						</tr>
-						<tr>
-							<td><a href="#">ahmed</a></td>
-							<td>hello</td>
-							<td>10-12-2015</td>
-							<td>
-								<button class="btn btn-danger">delete</button>
-							</td>
-						</tr>
-						<tr>
-							<td><a href="#">ahmed</a></td>
-							<td>hello</td>
-							<td>10-12-2015</td>
-							<td>
-								<button class="btn btn-danger">delete</button>
-							</td>
-						</tr>
-						<tr>
-							<td><a href="#">ahmed</a></td>
-							<td>hello</td>
-							<td>10-12-2015</td>
-							<td>
-								<button class="btn btn-danger">delete</button>
-							</td>
-						</tr>
-						<tr>
-							<td><a href="#">ahmed</a></td>
-							<td>hello</td>
-							<td>10-12-2015</td>
-							<td>
-								<button class="btn btn-danger">delete</button>
-							</td>
-						</tr>
-						<tr>
-							<td><a href="#">ahmed</a></td>
-							<td>hello</td>
-							<td>10-12-2015</td>
-							<td>
-								<button class="btn btn-danger">delete</button>
-							</td>
-						</tr>
-						<tr>
-							<td><a href="#">ahmed</a></td>
-							<td>hello</td>
-							<td>10-12-2015</td>
-							<td>
-								<button class="btn btn-danger">delete</button>
-							</td>
-						</tr>
+						<%} %>
+						
 
 					</tbody>
 					<tfoot>

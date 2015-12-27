@@ -39,12 +39,14 @@ public class UserMessagesDao {
 			}
 			return user;
 		} finally {
-			DBUtil.cleanUp(con, ps, rs);
+			rs.close();
+			ps.close();
+			con.close();
 		}
 	}
 
 	public List<MessageDto> getUserInbox(int userID) throws SQLException {
-
+        
 		String selectSQL = "SELECT MAX(message.id) as 'msgID' , recipient_message.thread_msg_id "
 				+ "FROM recipient_message INNER JOIN message ON recipient_message.msg_id = message.id "
 				+ "WHERE (recipient_message.reciver_id = ? or message.sender_id = ?) AND recipient_message.thread_msg_id IN ( "
@@ -78,7 +80,9 @@ public class UserMessagesDao {
 			}
 			return list;
 		} finally {
-			DBUtil.cleanUp(con, ps, rs);
+			rs.close();
+			ps.close();
+			con.close();
 		}
 	}
 
@@ -116,8 +120,9 @@ public class UserMessagesDao {
 				list.add(messageDto);
 			}
 			return list;
-		} finally {
-			DBUtil.cleanUp(con, ps, rs);
+		} finally {rs.close();
+		ps.close();
+		con.close();
 		}
 	}
 
@@ -155,8 +160,9 @@ public class UserMessagesDao {
 
 			}
 			return message;
-		} finally {
-			DBUtil.cleanUp(con, ps, rs);
+		} finally {rs.close();
+		ps.close();
+		con.close();
 		}
 	}
 
@@ -195,8 +201,9 @@ public class UserMessagesDao {
 				list.add(messageDto);
 			}
 			return list;
-		} finally {
-			DBUtil.cleanUp(con, ps, rs);
+		} finally {rs.close();
+		ps.close();
+		con.close();
 		}
 
 	}
@@ -237,7 +244,9 @@ public class UserMessagesDao {
 			}
 			return list;
 		} finally {
-			DBUtil.cleanUp(con, ps, rs);
+			rs.close();
+			ps.close();
+			con.close();
 		}
 
 	}
@@ -262,8 +271,9 @@ public class UserMessagesDao {
 			ps2.setInt(2, userID);
 			ps2.executeUpdate();
 		} finally {
-			DBUtil.cleanUp(con, ps1, null);
-			DBUtil.cleanUp(con, ps2, null);
+			ps1.close();
+			ps2.close();
+			con.close();
 		}
 	}
 
@@ -287,8 +297,9 @@ public class UserMessagesDao {
 			ps2.setInt(2, userID);
 			ps2.executeUpdate();
 		} finally {
-			DBUtil.cleanUp(con, ps1, null);
-			DBUtil.cleanUp(con, ps2, null);
+			ps1.close();
+			ps2.close();
+			con.close();
 		}
 	}
 
@@ -312,8 +323,9 @@ public class UserMessagesDao {
 			ps2.setInt(2, userID);
 			ps2.executeUpdate();
 		} finally {
-			DBUtil.cleanUp(con, ps1, null);
-			DBUtil.cleanUp(con, ps2, null);
+			ps1.close();
+			ps2.close();
+			con.close();
 		}
 	}
 
@@ -344,7 +356,9 @@ public class UserMessagesDao {
 
 			return receiver;
 		} finally {
-			DBUtil.cleanUp(con, ps, rs);
+			rs.close();
+			ps.close();
+			con.close();
 		}
 	}
 
@@ -352,8 +366,6 @@ public class UserMessagesDao {
 		String selectSQL = "SELECT DISTINCT message.id FROM message "
 				+ "INNER JOIN recipient_message ON recipient_message.msg_id = message.id "
 				+ "WHERE message.thread_msg_id = ? AND (recipient_message.reciver_id = ? OR message.sender_id = ?) "
-				+ "AND recipient_message.is_archived = 0 AND recipient_message.is_trashed = 0 AND recipient_message.is_deleted = 0 "
-				+ "AND message.is_archived = 0 AND message.is_trashed = 0 AND message.is_deleted = 0 "
 				+ "ORDER BY message.timestap DESC;";
 
 		List<ThreadMessageDto> list = new ArrayList<ThreadMessageDto>();
@@ -381,7 +393,9 @@ public class UserMessagesDao {
 			}
 			return list;
 		} finally {
-			DBUtil.cleanUp(con, ps, rs);
+			rs.close();
+			ps.close();
+			con.close();
 		}
 	}
 }

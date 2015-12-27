@@ -73,7 +73,7 @@
 					<a href="home.jsp" class="list-group-item active"> Index </a> <a
 						href="sent.jsp" class="list-group-item">Sent</a> <a
 						href="archived.jsp" class="list-group-item">Archived</a> <a
-						href="trach.jsp" class="list-group-item">Trach</a>
+						href="trash.jsp" class="list-group-item">Trash</a>
 				</div>
 			</div>
 			<div class="col-md-9">
