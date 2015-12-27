@@ -34,10 +34,15 @@
 					</div>
 					<button type="submit" class="btn btn-default">Submit</button>
 				</form>
-				<form class="navbar-form navbar-left " role="profile">
-					<button type="submit" class="btn btn-default profile">profile</button>
+				<form class="navbar-form navbar-left " role="profile"  action="profile.jsp">
+					<button type="submit" class="btn btn-default profile">
+						<%
+							out.print(session.getAttribute("logedInUseremail"));
+						%>
+					</button>
 				</form>
-				<form class="navbar-form navbar-left " role="logout">
+				<form class="navbar-form navbar-left " role="logout"
+					action="LogoutServelet">
 					<button type="submit" class="btn btn-default log_out">logout</button>
 				</form>
 
@@ -60,19 +65,22 @@
 				<form>
 					<table>
 						<tr>
-							<td>To </td>
-							<td style="width: 100%;"><input type="text" class="form-control" placeholder="TO"
+							<td>To</td>
+							<td style="width: 100%;"><input type="text"
+								class="form-control" placeholder="TO"
 								aria-describedby="basic-addon1"></td>
 						</tr>
 
 						<tr>
-							<td>subject </td>
-							<td style="width: 100%;"><input type="text" class="form-control"
-								placeholder="Subject" aria-describedby="basic-addon1"></td>
+							<td>subject</td>
+							<td style="width: 100%;"><input type="text"
+								class="form-control" placeholder="Subject"
+								aria-describedby="basic-addon1"></td>
 						</tr>
 						<tr>
-							<td>Message </td>
-							<td style="width: 100%;"><textarea rows="14" cols="110" placeholder="Message"></textarea></td>
+							<td>Message</td>
+							<td style="width: 100%;"><textarea rows="14" cols="110"
+									placeholder="Message"></textarea></td>
 						</tr>
 						<tr>
 

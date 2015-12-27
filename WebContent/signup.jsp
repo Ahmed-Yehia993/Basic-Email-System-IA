@@ -43,7 +43,7 @@
 					<div class="col-md-3 .col-md-offset-3">
 						<input type="email" class="form-control" name="inputEmail3"
 							id="inputEmail3" placeholder="Email" style="width: 300px"
-							required>
+							onfocus="create()" required>
 					</div>
 				</div>
 				<div class="form-group">
@@ -52,7 +52,7 @@
 					<div class="col-md-3 .col-md-offset-3">
 						<input type="password" class="form-control" name="inputPassword3"
 							id="inputPassword3" placeholder="Password" style="width: 300px"
-							required>
+							 required>
 					</div>
 				</div>
 				<div class="form-group">
@@ -80,6 +80,13 @@
 		</div>
 	</div>
 	<script type="text/javascript">
+		function create() {
+			
+			document.getElementById("inputEmail3").value = document
+					.getElementById("firstName").value
+					+ document.getElementById("secondName").value+"@BasicEmail.com";
+		}
+
 		function validate() {
 			var pass = document.getElementById("inputPassword3").value;
 			var repass = document.getElementById("inputPassword4").value;
@@ -89,7 +96,7 @@
 			var x = document.getElementById("ajaxGetUserServletResponse").innerHTML;
 			if (x.length > 0)
 				return false;
-			
+
 			if (res == false) {
 				alert("your password should contain at least 6 charachter one upper case and one lower case and one number");
 				return false;
@@ -97,9 +104,10 @@
 				if (pass != repass) {
 					alert("the password and repassword should be the same");
 					return false;
-				} else{
+				} else {
 					alert("your account added successfully ;)");
-					return true;}
+					return true;
+				}
 
 			}
 

@@ -32,7 +32,7 @@ public class EmailAlreadyExistServlet extends HttpServlet {
 		String email = request.getParameter("Email");
 		if(user.emailAlreadyExist(email)){
 			response.setContentType("text/plain");
-			response.getWriter().write(email + " alerady exist, please choose another");	
+			response.getWriter().write(email + " already exist, please choose another");	
 		}
 		
 		

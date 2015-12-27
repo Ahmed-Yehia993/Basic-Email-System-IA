@@ -34,10 +34,8 @@ public class LoginServelet extends HttpServlet {
 		response.getWriter().append("Served at: ").append(request.getContextPath());
 		String email = request.getParameter("inputEmail3");
 		String pass = request.getParameter("inputPassword3");
-		String rem = request.getParameter("rem");
-		System.out.println(rem);
 
-		System.out.println(email + " " + pass + " " + rem);
+		System.out.println(email + " " + pass);
 		User currentUser = userSer.getUser(email, pass);
 		if (currentUser == null) {
 			getServletConfig().getServletContext().getRequestDispatcher("/index.jsp").forward(request, response);
@@ -50,12 +48,16 @@ public class LoginServelet extends HttpServlet {
 			session.setAttribute("logedInUserPassword", currentUser.getPassword());
 			session.setAttribute("logedInUserPhoto", currentUser.getPhotourl());
 			session.setAttribute("logedInUserPhone", currentUser.getPhone());
-			if (rem.equals("on")) {
-				System.out.println("===========");
-				System.out.println(currentUser.getId());
-				Cookie cookie1 = new Cookie("user", Integer.toString(currentUser.getId()));
-				cookie1.setMaxAge(60 * 1000);
-				response.addCookie(cookie1);
+			try {
+				String rem = request.getParameter("rem");
+				if (rem.equals("on")) {
+					System.out.println("===========");
+					System.out.println(currentUser.getId());
+					Cookie cookie1 = new Cookie("user", Integer.toString(currentUser.getId()));
+					cookie1.setMaxAge(60 * 1000);
+					response.addCookie(cookie1);
+				}
+			} catch (Exception e) {
 			}
 
 			getServletConfig().getServletContext().getRequestDispatcher("/home.jsp").forward(request, response);

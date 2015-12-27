@@ -11,10 +11,10 @@
 </head>
 <body class="login_body">
 	<div class="container">
-	<%
-		Object use = session.getAttribute("logedInUserId");
-
-	%>
+		<%
+			Object use = session.getAttribute("logedInUserId");
+			//	out.print(use);
+		%>
 		<nav class="navbar navbar-inverse">
 		<div class="container-fluid">
 			<!-- Brand and toggle get grouped for better mobile display -->
@@ -39,10 +39,16 @@
 					</div>
 					<button type="submit" class="btn btn-default">Submit</button>
 				</form>
-				<form class="navbar-form navbar-left " role="profile">
-					<button type="submit" class="btn btn-default profile">profile</button>
+				<form class="navbar-form navbar-left " role="profile"
+					action="profile.jsp">
+					<button type="submit" class="btn btn-default profile">
+						<%
+							out.print(session.getAttribute("logedInUseremail"));
+						%>
+					</button>
 				</form>
-				<form class="navbar-form navbar-left " role="logout">
+				<form class="navbar-form navbar-left " role="logout"
+					action="LogoutServelet">
 					<button type="submit" class="btn btn-default log_out">logout</button>
 				</form>
 
@@ -195,7 +201,8 @@
 				</table>
 			</div>
 		</div>
-		<script src="resources/js/bootstrap.min.js"></script>
-		<script src="resources/js/jquery-1.11.3.min.js"></script>
+	</div>
+	<script src="resources/js/bootstrap.min.js"></script>
+	<script src="resources/js/jquery-1.11.3.min.js"></script>
 </body>
 </html>

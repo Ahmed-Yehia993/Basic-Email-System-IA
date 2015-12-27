@@ -18,8 +18,8 @@
 
 		for (int i = 0; i < cookies.length; i++) {
 			Cookie cookie1 = cookies[i];
-			out.println(cookie1.getName());
-			out.println(cookie1.getValue());
+			//out.println(cookie1.getName());
+			//out.println(cookie1.getValue());
 			if (cookie1.getName().equals("user")) {
 				response.sendRedirect("home.jsp");
 			} else {

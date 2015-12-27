@@ -34,10 +34,15 @@
 					</div>
 					<button type="submit" class="btn btn-default">Submit</button>
 				</form>
-				<form class="navbar-form navbar-left " role="profile">
-					<button type="submit" class="btn btn-default profile">profile</button>
+				<form class="navbar-form navbar-left " role="profile"  action="profile.jsp">
+					<button type="submit" class="btn btn-default profile">
+						<%
+							out.print(session.getAttribute("logedInUseremail"));
+						%>
+					</button>
 				</form>
-				<form class="navbar-form navbar-left " role="logout">
+				<form class="navbar-form navbar-left " role="logout"
+					action="LogoutServelet">
 					<button type="submit" class="btn btn-default log_out">logout</button>
 				</form>
 
@@ -50,13 +55,12 @@
 				<a href="compose.jsp">
 					<button type="button" class="btn btn-primary" style="width: 100%">
 						Compose</button>
-				</a>
-				<br> <br>
+				</a> <br> <br>
 				<div class="list-group">
-					<a href="home.jsp" class="list-group-item "> Index </a> <a href="sent.jsp"
-						class="list-group-item active">Sent</a> <a href="archived.jsp"
-						class="list-group-item">Archived</a> <a href="trach.jsp"
-						class="list-group-item">Trach</a>
+					<a href="home.jsp" class="list-group-item "> Index </a> <a
+						href="sent.jsp" class="list-group-item active">Sent</a> <a
+						href="archived.jsp" class="list-group-item">Archived</a> <a
+						href="trach.jsp" class="list-group-item">Trach</a>
 				</div>
 			</div>
 			<div class="col-md-9">
