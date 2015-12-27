@@ -6,22 +6,23 @@ public class MessageDto {
 
 	private int threadMessagesNumber;
 
-	// private User receiver;
-
 	private User sender;
 
 	private Message message;
+
+	private boolean is_readed;
 
 	public MessageDto() {
 
 	}
 
-	public MessageDto(int threadID, User sender, Message message, int threadMessagesNumber) {
+	public MessageDto(int threadID, User sender, Message message, int threadMessagesNumber, boolean is_readed) {
 		super();
 		this.threadID = threadID;
 		this.sender = sender;
 		this.message = message;
 		this.threadMessagesNumber = threadMessagesNumber;
+		this.is_readed = is_readed;
 	}
 
 	public int getThreadID() {
@@ -56,4 +57,11 @@ public class MessageDto {
 		this.threadMessagesNumber = threadMessagesNumber;
 	}
 
+	public boolean isIs_readed() {
+		return is_readed;
+	}
+
+	public void setIs_readed(boolean is_readed) {
+		this.is_readed = is_readed;
+	}
 }

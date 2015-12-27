@@ -26,19 +26,11 @@ public class Message {
 
 	private Timestamp timestap;
 
-	private boolean isDeleted;
-
-	private boolean isReaded;
-
-	private boolean isTrashed;
-
-	private boolean isArchived;
-
 	public Message() {
 	}
 
 	public Message(int id, int senderId, int threadMsgId, String subject, String body, String attachment,
-			Timestamp timestap, boolean isDeleted, boolean isReaded, boolean isTrashed, boolean isArchived) {
+			Timestamp timestap) {
 		this.id = id;
 		this.senderId = senderId;
 		this.threadMsgId = threadMsgId;
@@ -46,10 +38,6 @@ public class Message {
 		this.body = body;
 		this.attachment = attachment;
 		this.timestap = timestap;
-		this.isDeleted = isDeleted;
-		this.isReaded = isReaded;
-		this.isTrashed = isTrashed;
-		this.isArchived = isArchived;
 	}
 
 	public Message(int id, int senderId, int threadMsgId, String subject, String body, Timestamp timestap) {
@@ -57,7 +45,7 @@ public class Message {
 		this.senderId = senderId;
 		this.threadMsgId = threadMsgId;
 		this.subject = subject;
-		this.body = body; 
+		this.body = body;
 		this.timestap = timestap;
 	}
 
@@ -89,22 +77,6 @@ public class Message {
 		return timestap;
 	}
 
-	public boolean isDeleted() {
-		return isDeleted;
-	}
-
-	public boolean isReaded() {
-		return isReaded;
-	}
-
-	public boolean isTrashed() {
-		return isTrashed;
-	}
-
-	public boolean isArchived() {
-		return isArchived;
-	}
-
 	public void setId(int id) {
 		this.id = id;
 	}
@@ -132,21 +104,4 @@ public class Message {
 	public void setTimestap(Timestamp timestap) {
 		this.timestap = timestap;
 	}
-
-	public void setDeleted(boolean isDeleted) {
-		this.isDeleted = isDeleted;
-	}
-
-	public void setReaded(boolean isReaded) {
-		this.isReaded = isReaded;
-	}
-
-	public void setTrashed(boolean isTrashed) {
-		this.isTrashed = isTrashed;
-	}
-
-	public void setArchived(boolean isArchived) {
-		this.isArchived = isArchived;
-	}
-
 }
