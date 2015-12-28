@@ -98,7 +98,7 @@
 								}
 						%>
 						<tr class="<%=readed%>">
-							<td><a href="#"><%=inbox.get(i).getSender().getFirstname() + " (" + inbox.get(i).getThreadMessagesNumber() + ")"%></a></td>
+							<td><a href="<%="message.jsp?thredId="+inbox.get(i).getThreadID() %>"><%=inbox.get(i).getSender().getFirstname() + " (" + inbox.get(i).getThreadMessagesNumber() + ")"%></a></td>
 							<td><%=inbox.get(i).getMessage().getSubject()%></td>
 							<td><%=inbox.get(i).getMessage().getTimestap()%></td>
 							<td>

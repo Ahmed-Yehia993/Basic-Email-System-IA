@@ -1,8 +1,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<%@page import="com.basicemail.entity.MessageDto"%>
+<%@page import="com.basicemail.entity.ThreadMessageDto"%>
 <%@page import="java.util.List"%>
 <%@page import="com.basicemail.service.UserMessagesService"%>
-<%@page import="com.basicemail.entity.User"%>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -75,93 +74,46 @@
 						href="trash.jsp" class="list-group-item">Trash</a>
 				</div>
 			</div>
+			<%
+				UserMessagesService s = new UserMessagesService();
+				String thredID = request.getParameter("thredId");
+				List<ThreadMessageDto> msgs = s.getAllMessagesOfThreadByThreadID(userId, Integer.parseInt(thredID));
+				s.MarkThreadASReaded(userId, Integer.parseInt(thredID));
+			%>
 			<div class="col-md-9">
-				<table class="table table-striped table-bordered">
-					<thead>
-						<tr class="infoo">
-							<td style="color: white">Sender</td>
-							<td style="color: white">subject</td>
-							<td style="color: white">Time</td>
-							<td style="color: white">opertaion</td>
-						</tr>
-					</thead>
+				<div>
+					<h3 style="color: #337ab7;">
+						<%=msgs.get(0).getMessage().getSubject()%></h3>
+				</div>
+				<%
+					for (int i = 0; i < msgs.size(); i++) {
+				%>
 
-					<tbody>
-						<%
-							UserMessagesService s = new UserMessagesService();
+				<div class="msg">
+					<div class="row">
+						<div class="col-md-9">
+							<h5>
+								<strong>From: <%=msgs.get(i).getSender()%></strong>
+							</h5>
+						</div>
+						<div>
+							<p style="color: red;"><%=msgs.get(i).getMessage().getTimestap()%></p>
+						</div>
+					</div>
+					<h5>
+						<strong>TO: </strong><%=msgs.get(i).getReceiver()%>
+					</h5>
+					<br>
+					<p><%=msgs.get(i).getMessage().getBody()%></p>
 
-							List<MessageDto> inbox = s.getUserInbox(userId);
-							for (int i = 0; i < inbox.size(); i++) {
-								String readed = null;
-								if (inbox.get(i).isIs_readed()) {
-									readed = "success";
-								} else {
-									readed = "active";
-								}
-								
-						%>
-						<tr class="<%=readed%>">
-							<td><a href="<%="message.jsp?thredId="+inbox.get(i).getThreadID() %>"><%=inbox.get(i).getSender().getFirstname() + " (" + inbox.get(i).getThreadMessagesNumber() + ")"%></a></td>
-							<td><%=inbox.get(i).getMessage().getSubject()%></td>
-							<td><%=inbox.get(i).getMessage().getTimestap()%></td>
-							<td>
-								<div class="row">
-									<div class="col-md-3">
-										<form action="home.jsp" method="post">
-											<input type="hidden" id="del" name="del"
-												value="<%=inbox.get(i).getThreadID()%>">
-											<button class="btn btn-danger " type="submit">
-												<span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
-											</button>
-										</form>
-									</div>
-									<div class="col-md-3">
-										<form action="home.jsp" method="post">
-											<input type="hidden" id="arc" name="arc"
-												value="<%=inbox.get(i).getThreadID()%>">
-											<button class="btn btn-info">
-												<span class="glyphicon glyphicon-folder-open"
-													aria-hidden="true"></span>
-											</button>
-										</form>
-									</div>
-								</div>
-							</td>
-						</tr>
-						<%
-							}
-						%>
-					</tbody>
-					<tfoot>
-						<tr class="infoo">
-							<td style="color: white">Sender</td>
-							<td style="color: white">subject</td>
-							<td style="color: white">Time</td>
-							<td style="color: white">opertaion</td>
-						</tr>
-					</tfoot>
-				</table>
+				</div>
+				<%
+					}
+				%>
+				
+				<a href="<%="compose.jsp?type=2&threadid="+thredID %>"><button class="btn btn-primary">Reply</button></a>
+				<a href="<%="compose.jsp?type=3&threadid="+thredID %>"><button class="btn btn-primary">Forward</button></a>
 			</div>
 		</div>
-	</div>
-
-	<%
-		try {
-			String st = request.getParameter("del");
-			s.trashThreadMessages(userId, Integer.parseInt(st));
-
-			response.sendRedirect("home.jsp");
-		} catch (Exception e) {
-		}
-		try {
-			String st = request.getParameter("arc");
-			s.ArchiveThreadMessages(userId, Integer.parseInt(st));
-
-			response.sendRedirect("home.jsp");
-		} catch (Exception e) {
-		}
-	%>
-
-
 </body>
 </html>
