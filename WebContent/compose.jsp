@@ -1,4 +1,8 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<%@page import="com.basicemail.service.UserMessagesService"%>
+<%@page import="com.basicemail.entity.ThreadMessageDto"%>
+<%@page import="java.util.List"%>
+<%@page import="java.util.ArrayList"%>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -34,7 +38,8 @@
 					</div>
 					<button type="submit" class="btn btn-default">Submit</button>
 				</form>
-				<form class="navbar-form navbar-left " role="profile"  action="profile.jsp">
+				<form class="navbar-form navbar-left " role="profile"
+					action="profile.jsp">
 					<button type="submit" class="btn btn-default profile">
 						<%
 							out.print(session.getAttribute("logedInUseremail"));
@@ -62,31 +67,73 @@
 				</div>
 			</div>
 			<div class="col-md-9">
-				<form>
+				<%
+					Integer userId = (Integer) session.getAttribute("logedInUserId");
+					String parm = (String) request.getParameter("type");
+					int type = Integer.parseInt((parm == null ? "1" : parm));
+					int threadid = 0;
+					String subjectString = "";
+					String bodyString = "";
+					String toString = "";
+					//threadid
+					if (type != 1) {
+
+						String parmThreadid = (String) request.getParameter("threadid");
+						if (parmThreadid == null) {
+							out.print("<script type='text/javascript'>alert('Error will redirect to home')</script>");
+							response.sendRedirect("/home.jsp");
+						} else
+							threadid = Integer.parseInt(parmThreadid);
+
+						if (type == 3) {
+							UserMessagesService service = new UserMessagesService();
+							String tmp = "";
+							List<ThreadMessageDto> list = service.getAllMessagesOfThreadByThreadID(userId, threadid);
+							for (int i = 0; i < list.size(); i++) {
+								ThreadMessageDto tmd = list.get(i);
+								bodyString += tmp + "From : " + tmd.getSender() + "\n";
+								bodyString += tmp + "Subject : " + tmd.getMessage().getSubject() + "\n";
+								bodyString += tmp + "Body : " + tmd.getMessage().getBody() + "\n";
+								tmp += "  ";
+							}
+							bodyString += "-----------------------------------------------";
+						}
+					}
+				%>
+
+				<form action="MessageServlet">
+					<input type="hidden" value="<%=type%>" name="type"> <input
+						type="hidden" value="<%=threadid%>" name="threadid">
 					<table>
 						<tr>
 							<td>To</td>
-							<td style="width: 100%;"><input type="text"
-								class="form-control" placeholder="TO"
+							<td style="width: 100%;"><input type="text" name="recivers"
+								value="<%=toString%>" class="form-control" placeholder="TO"
 								aria-describedby="basic-addon1"></td>
 						</tr>
 
 						<tr>
 							<td>subject</td>
-							<td style="width: 100%;"><input type="text"
-								class="form-control" placeholder="Subject"
-								aria-describedby="basic-addon1"></td>
+							<td style="width: 100%;"><input type="text" name="subject"
+								value="<%=subjectString%>" class="form-control"
+								placeholder="Subject" aria-describedby="basic-addon1"></td>
 						</tr>
 						<tr>
 							<td>Message</td>
 							<td style="width: 100%;"><textarea rows="14" cols="110"
-									placeholder="Message"></textarea></td>
+									name="body" placeholder="Message"><%=bodyString%></textarea></td>
 						</tr>
 						<tr>
 
 						</tr>
 					</table>
-					<button type="submit" class="btn btn-primary" style="float: right;">Send</button>
+					<button type="submit" class="btn btn-primary" style="float: right;">
+						<%
+							out.print(type == 1 ? "Send" : (type == 2 ? "Reply" : "Forward"));
+						%>
+					</button>
+
+
 				</form>
 			</div>
 		</div>
