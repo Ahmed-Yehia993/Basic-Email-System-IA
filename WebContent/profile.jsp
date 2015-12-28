@@ -70,7 +70,7 @@
 						Compose</button>
 				</a> <br> <br>
 				<div class="list-group">
-					<a href="home.jsp" class="list-group-item active"> Index </a> <a
+					<a href="home.jsp" class="list-group-item active"> Inbox </a> <a
 						href="sent.jsp" class="list-group-item">Sent</a> <a
 						href="archived.jsp" class="list-group-item">Archived</a> <a
 						href="trash.jsp" class="list-group-item">Trash</a>

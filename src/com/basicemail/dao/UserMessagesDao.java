@@ -289,6 +289,24 @@ public class UserMessagesDao {
 			con.close();
 		}
 	}
+	public void trashThreadMessages(int userID, int threadID) throws SQLException {
+		String recipient_message = "UPDATE opertaions SET opertaions.is_trashed = 1 , opertaions.is_archived = 0 WHERE "
+				+ "opertaions.thredID = ? AND opertaions.userID = ?;";
+
+		Connection con = null;
+		PreparedStatement ps = null;
+		try {
+			con = DBUtil.getConnection();
+			ps = con.prepareStatement(recipient_message);
+			ps.setInt(1, threadID);
+			ps.setInt(2, userID);
+			ps.executeUpdate();
+		} finally {
+			ps.close();
+			con.close();
+		}
+	}
+	
 
 	public void MarkThreadASReaded(int userID, int threadID) throws SQLException {
 		String recipient_message = "UPDATE opertaions SET opertaions.is_readed = 1 WHERE "
