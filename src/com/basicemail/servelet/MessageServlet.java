@@ -23,23 +23,28 @@ public class MessageServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		HttpSession session = request.getSession();
-		int userid = (int) session.getAttribute("logedInUserId");
-		
+		int userid = 0;
+		try {
+			session.getAttribute("logedInUserId");
+		} catch (Exception d) {
+		}
+
 		if (userid == 0) {
 			getServletConfig().getServletContext().getRequestDispatcher("/index.jsp").forward(request, response);
 			return;
 		}
-		
-		Integer type = (Integer) request.getAttribute("type");
-		String subject = (String) request.getAttribute("subject");
-		String body = (String) request.getAttribute("body");
-		String recivers = (String) request.getAttribute("recivers");
+
+		Integer type = Integer.parseInt((String) request.getParameter("type"));
+		String subject = (String) request.getParameter("subject");
+		String body = (String) request.getParameter("body");
+		String recivers = (String) request.getParameter("recivers");
+		System.out.println(type + " " + subject + " " + body + " " + recivers);
 
 		SendingMessageService sms = new SendingMessageService();
 		if (type.intValue() == 1) { // compose
 			response.getWriter().append(sms.composeMessage(new Message(0, userid, 0, subject, body, null), recivers));
 		} else if (type.intValue() == 2) { // replay
-			int threadid = (int) session.getAttribute("threadid");
+			int threadid = Integer.parseInt((String) request.getParameter("threadid"));
 			response.getWriter()
 					.append(sms.replayMessage(new Message(0, userid, 0, subject, body, null), recivers, threadid));
 		} else if (type.intValue() == 3) { // forward
