@@ -9,7 +9,8 @@
 <link href="resources/css/bootstrap.min.css" rel="stylesheet">
 <link href="resources/style.css" rel="stylesheet">
 <title>archived</title>
-
+<script src="resources/js/bootstrap.min.js"></script>
+<script src="resources/js/jquery-1.11.3.min.js"></script>
 </head>
 <body class="login_body">
 	<div class="container">
@@ -43,7 +44,8 @@
 					</div>
 					<button type="submit" class="btn btn-default">Submit</button>
 				</form>
-				<form class="navbar-form navbar-left " role="profile"  action="profile.jsp">
+				<form class="navbar-form navbar-left " role="profile"
+					action="profile.jsp">
 					<button type="submit" class="btn btn-default profile">
 						<%
 							out.print(session.getAttribute("logedInUseremail"));
@@ -66,7 +68,7 @@
 						Compose</button>
 				</a> <br> <br>
 				<div class="list-group">
-					<a href="home.jsp" class="list-group-item "> Index </a> <a
+					<a href="home.jsp" class="list-group-item "> Inbox </a> <a
 						href="sent.jsp" class="list-group-item ">Sent</a> <a
 						href="archived.jsp" class="list-group-item active">Archived</a> <a
 						href="trash.jsp" class="list-group-item">Trash</a>
@@ -79,25 +81,43 @@
 							<td style="color: white">Sender</td>
 							<td style="color: white">subject</td>
 							<td style="color: white">Time</td>
-							<td style="color: white">Delete</td>
+							<td style="color: white">opertaion</td>
 						</tr>
 					</thead>
 					<tbody>
-					<%
-					    UserMessagesService s = new UserMessagesService();
-						List<MessageDto> inbox = s.getUserArchived(userId);
-						for(int i =0;i<inbox.size();i++){
-					%>
-						<tr>
-							<td><a href="#"><%=inbox.get(i).getSender().getFirstname()+" ("+inbox.get(i).getThreadMessagesNumber()+")" %></a></td>
-							<td><%=inbox.get(i).getMessage().getSubject() %></td>
-							<td><%=inbox.get(i).getMessage().getTimestap() %></td>
+						<%
+							UserMessagesService s = new UserMessagesService();
+							List<MessageDto> inbox = s.getUserArchived(userId);
+							for (int i = 0; i < inbox.size(); i++) {
+								String readed = null;
+								if (inbox.get(i).isIs_readed()) {
+									readed = "success";
+								} else {
+									readed = "active";
+								}
+						%>
+						<tr class="<%=readed%>">
+							<td><a href="#"><%=inbox.get(i).getSender().getFirstname() + " (" + inbox.get(i).getThreadMessagesNumber() + ")"%></a></td>
+							<td><%=inbox.get(i).getMessage().getSubject()%></td>
+							<td><%=inbox.get(i).getMessage().getTimestap()%></td>
 							<td>
-								<button class="btn btn-danger">delete</button>
+								<div class="row">
+									<div class="col-md-3">
+										<form action="archived.jsp" method="post">
+											<input type="hidden" id="del" name="del"
+												value="<%=inbox.get(i).getThreadID()%>">
+											<button class="btn btn-danger " type="submit">
+												<span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+											</button>
+										</form>
+									</div>
+								</div>
 							</td>
 						</tr>
-						<%} %>
-						
+						<%
+							}
+						%>
+
 
 					</tbody>
 					<tfoot>
@@ -105,13 +125,21 @@
 							<td style="color: white">Sender</td>
 							<td style="color: white">subject</td>
 							<td style="color: white">Time</td>
-							<td style="color: white">Delete</td>
+							<td style="color: white">opertaion</td>
 						</tr>
 					</tfoot>
 				</table>
 			</div>
 		</div>
-		<script src="resources/js/bootstrap.min.js"></script>
-		<script src="resources/js/jquery-1.11.3.min.js"></script>
+		<%
+			try {
+				String st = request.getParameter("del");
+				s.trashThreadMessages(userId, Integer.parseInt(st));
+				response.sendRedirect("archived.jsp");
+			} catch (Exception e) {
+			}
+			
+			
+		%>
 </body>
 </html>

@@ -10,7 +10,8 @@
 <link href="resources/css/bootstrap.min.css" rel="stylesheet">
 <link href="resources/style.css" rel="stylesheet">
 <title>home</title>
-
+<script src="resources/js/bootstrap.min.js"></script>
+<script src="resources/js/jquery-1.11.3.min.js"></script>
 </head>
 <body class="login_body">
 	<div class="container">
@@ -68,7 +69,7 @@
 						Compose</button>
 				</a> <br> <br>
 				<div class="list-group">
-					<a href="home.jsp" class="list-group-item active"> Index </a> <a
+					<a href="home.jsp" class="list-group-item active"> Inbox </a> <a
 						href="sent.jsp" class="list-group-item">Sent</a> <a
 						href="archived.jsp" class="list-group-item">Archived</a> <a
 						href="trash.jsp" class="list-group-item">Trash</a>
@@ -88,17 +89,42 @@
 					<tbody>
 						<%
 							UserMessagesService s = new UserMessagesService();
-						
+
 							List<MessageDto> inbox = s.getUserInbox(userId);
 							for (int i = 0; i < inbox.size(); i++) {
+								String readed = null;
+								if (inbox.get(i).isIs_readed()) {
+									readed = "success";
+								} else {
+									readed = "active";
+								}
 						%>
-						<tr>
+						<tr class="<%=readed%>">
 							<td><a href="#"><%=inbox.get(i).getSender().getFirstname() + " (" + inbox.get(i).getThreadMessagesNumber() + ")"%></a></td>
 							<td><%=inbox.get(i).getMessage().getSubject()%></td>
 							<td><%=inbox.get(i).getMessage().getTimestap()%></td>
 							<td>
-								<button class="btn btn-danger">delete</button>
-								<button class="btn btn-info">archive</button>
+								<div class="row">
+									<div class="col-md-3">
+										<form action="home.jsp" method="post">
+											<input type="hidden" id="del" name="del"
+												value="<%=inbox.get(i).getThreadID()%>">
+											<button class="btn btn-danger " type="submit">
+												<span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+											</button>
+										</form>
+									</div>
+									<div class="col-md-3">
+										<form action="home.jsp" method="post">
+											<input type="hidden" id="arc" name="arc"
+												value="<%=inbox.get(i).getThreadID()%>">
+											<button class="btn btn-info">
+												<span class="glyphicon glyphicon-folder-open"
+													aria-hidden="true"></span>
+											</button>
+										</form>
+									</div>
+								</div>
 							</td>
 						</tr>
 						<%
@@ -117,7 +143,24 @@
 			</div>
 		</div>
 	</div>
-	<script src="resources/js/bootstrap.min.js"></script>
-	<script src="resources/js/jquery-1.11.3.min.js"></script>
+
+	<%
+		try {
+			String st = request.getParameter("del");
+			s.trashThreadMessages(userId, Integer.parseInt(st));
+
+			response.sendRedirect("home.jsp");
+		} catch (Exception e) {
+		}
+		try {
+			String st = request.getParameter("arc");
+			s.ArchiveThreadMessages(userId, Integer.parseInt(st));
+
+			response.sendRedirect("home.jsp");
+		} catch (Exception e) {
+		}
+	%>
+
+
 </body>
 </html>

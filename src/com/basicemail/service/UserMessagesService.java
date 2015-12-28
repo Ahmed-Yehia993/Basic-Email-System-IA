@@ -37,6 +37,10 @@ public class UserMessagesService {
 
 	public void DeleteThreadMessages(int userID, int threadID) throws SQLException {
 		userMessagesDao.DeleteThreadMessages(userID, threadID);
+		
+	}
+	public void trashThreadMessages(int userID, int threadID) throws SQLException {
+		userMessagesDao.trashThreadMessages(userID, threadID);
 	}
 
 	public void MarkThreadASReaded(int userID, int threadID) throws SQLException {
