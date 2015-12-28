@@ -9,6 +9,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link href="resources/css/bootstrap.min.css" rel="stylesheet">
 <link href="resources/style.css" rel="stylesheet">
+
+<script type="text/javascript" src="resources/js/animation.js"></script>
 <title>home</title>
 
 </head>

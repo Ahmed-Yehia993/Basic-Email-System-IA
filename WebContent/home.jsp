@@ -12,16 +12,9 @@
 <title>home</title>
 <script src="resources/js/bootstrap.min.js"></script>
 <script src="resources/js/jquery-1.11.3.min.js"></script>
+<script type="text/javascript" src="resources/js/animation.js"></script>
 </head>
 <body class="login_body">
-	<script>
-		$(document).ready(function() {
-			$("#flip").click(function() {
-				$("#panel").slideToggle("slow");
-			});
-		});
-	</script>
-
 	<div class="container">
 		<%
 			Object use = session.getAttribute("logedInUserId");
@@ -48,9 +41,7 @@
 				id="bs-example-navbar-collapse-1">
 				<div class="nav navbar-nav"></div>
 				<form class="navbar-form navbar-left" role="search">
-					<div class="form-group"></div>
 					<a href="#" id="flip" class="btn btn-default">Search</a>
-
 				</form>
 				<form class="navbar-form navbar-left " role="profile"
 					action="profile.jsp">

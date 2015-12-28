@@ -49,4 +49,15 @@ public class UserMessagesService {
 	public List<ThreadMessageDto> getAllMessagesOfThreadByThreadID(int userID, int threadID) throws SQLException {
 		return userMessagesDao.getAllMessagesOfThreadByThreadID(userID, threadID);
 	}
+	public List<MessageDto> searchAboutThreadsByFrom(int userID, int wantedUserID) throws SQLException {
+		return userMessagesDao.searchAboutThreadsByFrom(userID, wantedUserID);
+	}
+
+	public List<MessageDto> searchAboutThreadsByTo(int userID, int wantedUserID) throws SQLException {
+		return userMessagesDao.searchAboutThreadsByTo(userID, wantedUserID);
+	}
+
+	public List<MessageDto> searchAboutThreadsBySpecificRange(int userID, String from, String to) throws SQLException {
+		return userMessagesDao.searchAboutThreadsBySpecificRange(userID, from, to);
+	}
 }

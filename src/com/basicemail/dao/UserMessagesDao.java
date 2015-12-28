@@ -395,5 +395,129 @@ public class UserMessagesDao {
 			con.close();
 		}
 	}
+	public List<MessageDto> searchAboutThreadsByFrom(int userID, int wantedUserID) throws SQLException {
+		String selectSQL = "SELECT MAX(message.id) as 'msgID' , recipient_message.thread_msg_id , opertaions.is_readed "
+				+ "FROM recipient_message INNER JOIN message ON recipient_message.msg_id = message.id "
+				+ "INNER JOIN opertaions ON recipient_message.thread_msg_id = opertaions.thredID "
+				+ "WHERE (recipient_message.reciver_id = ? AND message.sender_id = ?) "
+				+ "AND opertaions.is_deleted = 0 AND opertaions.userID = ? "
+				+ "GROUP BY recipient_message.thread_msg_id DESC;";
+
+		List<MessageDto> list = new ArrayList<MessageDto>();
+		Connection con = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+
+		try {
+			con = DBUtil.getConnection();
+			ps = con.prepareStatement(selectSQL);
+			ps.setInt(1, userID);
+			ps.setInt(2, wantedUserID);
+			ps.setInt(3, userID);
+			rs = ps.executeQuery();
+
+			while (rs.next()) {
+				int msgID = rs.getInt("msgID");
+				int thread_msg_id = rs.getInt("thread_msg_id");
+				boolean isReaded = rs.getBoolean("is_readed");
+
+				Message message = getMessageBYID(msgID);
+				User sender = getUserByID(message.getSenderId());
+
+				int threadMessagesNumber = getAllMessagesOfThreadByThreadID(userID, thread_msg_id).size();
+				MessageDto messageDto = new MessageDto(thread_msg_id, sender, message, threadMessagesNumber, isReaded);
+				list.add(messageDto);
+			}
+			return list;
+		} finally {
+			rs.close();
+			ps.close();
+			con.close();
+		}
+	}
+
+	public List<MessageDto> searchAboutThreadsByTo(int userID, int wantedUserID) throws SQLException {
+		String selectSQL = "SELECT MAX(message.id) as 'msgID' , recipient_message.thread_msg_id , opertaions.is_readed "
+				+ "FROM recipient_message INNER JOIN message ON recipient_message.msg_id = message.id "
+				+ "INNER JOIN opertaions ON recipient_message.thread_msg_id = opertaions.thredID "
+				+ "WHERE (recipient_message.reciver_id = ? AND message.sender_id = ? ) "
+				+ "AND opertaions.is_deleted = 0 AND opertaions.userID = ? "
+				+ "GROUP BY recipient_message.thread_msg_id DESC;";
+
+		List<MessageDto> list = new ArrayList<MessageDto>();
+		Connection con = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+
+		try {
+			con = DBUtil.getConnection();
+			ps = con.prepareStatement(selectSQL);
+			ps.setInt(1, wantedUserID);
+			ps.setInt(2, userID);
+			ps.setInt(3, userID);
+			rs = ps.executeQuery();
+
+			while (rs.next()) {
+				int msgID = rs.getInt("msgID");
+				int thread_msg_id = rs.getInt("thread_msg_id");
+				boolean isReaded = rs.getBoolean("is_readed");
+
+				Message message = getMessageBYID(msgID);
+				User sender = getUserByID(message.getSenderId());
+
+				int threadMessagesNumber = getAllMessagesOfThreadByThreadID(userID, thread_msg_id).size();
+				MessageDto messageDto = new MessageDto(thread_msg_id, sender, message, threadMessagesNumber, isReaded);
+				list.add(messageDto);
+			}
+			return list;
+		} finally {
+			rs.close();
+			ps.close();
+			con.close();
+		}
+	}
+
+	public List<MessageDto> searchAboutThreadsBySpecificRange(int userID, String from, String to) throws SQLException {
+		String selectSQL = "SELECT MAX(message.id) as 'msgID' , recipient_message.thread_msg_id , opertaions.is_readed "
+				+ "FROM recipient_message INNER JOIN message ON recipient_message.msg_id = message.id "
+				+ "INNER JOIN opertaions ON recipient_message.thread_msg_id = opertaions.thredID "
+				+ "WHERE (recipient_message.reciver_id = ? or message.sender_id = ?) AND (message.timestap BETWEEN ? AND ?)"
+				+ "AND opertaions.is_deleted = 0 AND opertaions.userID = ? "
+				+ "GROUP BY recipient_message.thread_msg_id DESC;";
+
+		List<MessageDto> list = new ArrayList<MessageDto>();
+		Connection con = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+
+		try {
+			con = DBUtil.getConnection();
+			ps = con.prepareStatement(selectSQL);
+			ps.setInt(1, userID);
+			ps.setInt(2, userID);
+			ps.setString(3, from);
+			ps.setString(4, to);
+			ps.setInt(5, userID);
+			rs = ps.executeQuery();
+
+			while (rs.next()) {
+				int msgID = rs.getInt("msgID");
+				int thread_msg_id = rs.getInt("thread_msg_id");
+				boolean isReaded = rs.getBoolean("is_readed");
+
+				Message message = getMessageBYID(msgID);
+				User sender = getUserByID(message.getSenderId());
+
+				int threadMessagesNumber = getAllMessagesOfThreadByThreadID(userID, thread_msg_id).size();
+				MessageDto messageDto = new MessageDto(thread_msg_id, sender, message, threadMessagesNumber, isReaded);
+				list.add(messageDto);
+			}
+			return list;
+		} finally {
+			rs.close();
+			ps.close();
+			con.close();
+		}
+	}
 
 }

@@ -11,6 +11,7 @@
 <title>trach</title>
 <script src="resources/js/bootstrap.min.js"></script>
 <script src="resources/js/jquery-1.11.3.min.js"></script>
+<script type="text/javascript" src="resources/js/animation.js"></script>
 
 </head>
 <body class="login_body">
@@ -98,7 +99,8 @@
 								}
 						%>
 						<tr class="<%=readed%>">
-							<td><a href="<%="message.jsp?thredId="+inbox.get(i).getThreadID() %>"><%=inbox.get(i).getSender().getFirstname() + " (" + inbox.get(i).getThreadMessagesNumber() + ")"%></a></td>
+							<td><a
+								href="<%="message.jsp?thredId=" + inbox.get(i).getThreadID()%>"><%=inbox.get(i).getSender().getFirstname() + " (" + inbox.get(i).getThreadMessagesNumber() + ")"%></a></td>
 							<td><%=inbox.get(i).getMessage().getSubject()%></td>
 							<td><%=inbox.get(i).getMessage().getTimestap()%></td>
 							<td>
@@ -138,8 +140,7 @@
 				response.sendRedirect("trash.jsp");
 			} catch (Exception e) {
 			}
-			
-			
 		%>
+	
 </body>
 </html>
