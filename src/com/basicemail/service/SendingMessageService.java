@@ -39,15 +39,4 @@ public class SendingMessageService {
 		}
 	}
 
-	public List<MessageDto> searchAboutThreadsByFrom(int userID, int wantedUserID) throws SQLException {
-		return cmd.searchAboutThreadsByFrom(userID, wantedUserID);
-	}
-
-	public List<MessageDto> searchAboutThreadsByTo(int userID, int wantedUserID) throws SQLException {
-		return cmd.searchAboutThreadsByTo(userID, wantedUserID);
-	}
-
-	public List<MessageDto> searchAboutThreadsBySpecificRange(int userID, String from, String to) throws SQLException {
-		return cmd.searchAboutThreadsBySpecificRange(userID, from, to);
-	}
 }

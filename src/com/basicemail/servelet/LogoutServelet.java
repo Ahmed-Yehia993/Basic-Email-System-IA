@@ -38,7 +38,7 @@ public class LogoutServelet extends HttpServlet {
 			} else {
 			}
 		}
-		getServletConfig().getServletContext().getRequestDispatcher("/index.jsp").forward(request, response);
+		response.sendRedirect("index.jsp");
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)

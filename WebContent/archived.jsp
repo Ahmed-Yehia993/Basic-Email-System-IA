@@ -11,6 +11,7 @@
 <title>archived</title>
 <script src="resources/js/bootstrap.min.js"></script>
 <script src="resources/js/jquery-1.11.3.min.js"></script>
+<script type="text/javascript" src="resources/js/animation.js"></script>
 </head>
 <body class="login_body">
 	<div class="container">
@@ -69,10 +70,11 @@
 					</tr>
 
 					<tr>
-						<td><label>Date to:</label></td>
-						<td><input type="text" name="dateto" id="dateto"></td>
 						<td><label>Date from:</label></td>
 						<td><input type="text" name="datefrom" id="datefrom"></td>
+						<td><label>Date to:</label></td>
+						<td><input type="text" name="dateto" id="dateto"></td>
+
 					</tr>
 					<tr>
 						<td></td>
@@ -84,6 +86,7 @@
 				</table>
 			</form>
 		</div>
+
 		<div class="row">
 			<div class="col-md-3">
 				<a href="compose.jsp">

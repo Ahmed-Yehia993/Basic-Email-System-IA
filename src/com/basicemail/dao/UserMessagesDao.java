@@ -519,5 +519,43 @@ public class UserMessagesDao {
 			con.close();
 		}
 	}
+	public String getAllThreadUsersEmails(int userID, int threadID) throws SQLException {
+		String selectSQL = "SELECT DISTINCT(user.email) FROM recipient_message "
+				+ "INNER JOIN user ON user.id = recipient_message.reciver_id "
+				+ "INNER JOIN message ON message.id = recipient_message.msg_id "
+				+ "WHERE recipient_message.thread_msg_id = ? AND recipient_message.reciver_id <> ? "
+				+ "UNION SELECT DISTINCT(user.email) as 'ss' FROM message "
+				+ "INNER JOIN user ON user.id = message.sender_id "
+				+ "WHERE message.thread_msg_id = ? AND message.sender_id <> ?;";
+
+		Connection con = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+
+		try {
+			con = DBUtil.getConnection();
+			ps = con.prepareStatement(selectSQL);
+			ps.setInt(1, threadID);
+			ps.setInt(2, userID);
+			ps.setInt(3, threadID);
+			ps.setInt(4, userID);
+			
+			rs = ps.executeQuery();
+
+			String receiver = "";
+
+			while (rs.next())
+				if (rs.isLast())
+					receiver += rs.getString("email");
+				else
+					receiver += rs.getString("email") + ",";
+
+			return receiver;
+		} finally {
+			rs.close();
+			ps.close();
+			con.close();
+		}
+	}
 
 }

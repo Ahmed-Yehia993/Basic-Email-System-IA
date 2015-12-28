@@ -40,10 +40,7 @@
 				id="bs-example-navbar-collapse-1">
 				<div class="nav navbar-nav"></div>
 				<form class="navbar-form navbar-left" role="search">
-					<div class="form-group">
-						<input type="text" class="form-control" placeholder="Search">
-					</div>
-					<button type="submit" class="btn btn-default">Submit</button>
+					<a href="#" id="flip" class="btn btn-default">Search</a>
 				</form>
 				<form class="navbar-form navbar-left " role="profile"
 					action="profile.jsp">
@@ -62,6 +59,33 @@
 			<!-- /.navbar-collapse -->
 		</div>
 		<!-- /.container-fluid --> </nav>
+		<div id="panel" style="display: none;">
+			<form action="search.jsp">
+				<table>
+					<tr>
+						<td><label class="control-label">To:</label></td>
+						<td><input type="text" name="msgto" id="msgto"></td>
+						<td><label>From:</label></td>
+						<td><input type="text" name="msgfrom" id="msgfrom"></td>
+					</tr>
+
+					<tr>
+						<td><label>Date from:</label></td>
+						<td><input type="text" name="datefrom" id="datefrom"></td>
+						<td><label>Date to:</label></td>
+						<td><input type="text" name="dateto" id="dateto"></td>
+
+					</tr>
+					<tr>
+						<td></td>
+						<td></td>
+						<td><button class="btn btn-info">
+								<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+							</button></td>
+					</tr>
+				</table>
+			</form>
+		</div>
 		<div class="row">
 			<div class="col-md-3">
 				<a href="compose.jsp">
@@ -99,7 +123,8 @@
 								}
 						%>
 						<tr class="<%=readed%>">
-							<td><a href="<%="message.jsp?thredId="+inbox.get(i).getThreadID() %>"><%=inbox.get(i).getSender().getFirstname() + " (" + inbox.get(i).getThreadMessagesNumber() + ")"%></a></td>
+							<td><a
+								href="<%="message.jsp?thredId=" + inbox.get(i).getThreadID()%>"><%=inbox.get(i).getSender().getFirstname() + " (" + inbox.get(i).getThreadMessagesNumber() + ")"%></a></td>
 							<td><%=inbox.get(i).getMessage().getSubject()%></td>
 							<td><%=inbox.get(i).getMessage().getTimestap()%></td>
 							<td>

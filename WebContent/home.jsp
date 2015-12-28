@@ -72,10 +72,11 @@
 					</tr>
 
 					<tr>
-						<td><label>Date to:</label></td>
-						<td><input type="text" name="dateto" id="dateto"></td>
 						<td><label>Date from:</label></td>
 						<td><input type="text" name="datefrom" id="datefrom"></td>
+						<td><label>Date to:</label></td>
+						<td><input type="text" name="dateto" id="dateto"></td>
+
 					</tr>
 					<tr>
 						<td></td>
@@ -86,90 +87,102 @@
 					</tr>
 				</table>
 			</form>
-	</div>
-	<div class="row">
-		<div class="col-md-3">
-			<a href="compose.jsp">
-				<button type="button" class="btn btn-primary" style="width: 100%">
-					Compose</button>
-			</a> <br> <br>
-			<div class="list-group">
-				<a href="home.jsp" class="list-group-item active"> Inbox </a> <a
-					href="sent.jsp" class="list-group-item">Sent</a> <a
-					href="archived.jsp" class="list-group-item">Archived</a> <a
-					href="trash.jsp" class="list-group-item">Trash</a>
+		</div>
+		<div class="row">
+			<div class="col-md-3">
+				<a href="compose.jsp">
+					<button type="button" class="btn btn-primary" style="width: 100%">
+						Compose</button>
+				</a> <br> <br>
+				<div class="list-group">
+					<a href="home.jsp" class="list-group-item active"> Inbox </a> <a
+						href="sent.jsp" class="list-group-item">Sent</a> <a
+						href="archived.jsp" class="list-group-item">Archived</a> <a
+						href="trash.jsp" class="list-group-item">Trash</a>
+				</div>
+			</div>
+
+			<div class="col-md-9">
+				<%
+					String res = "";
+					try {
+						res = request.getParameter("msgresult").toString();
+						if (!res.equals("")) {
+				%>
+				<div class="alert alert-info" role="alert"><%=res%></div>
+				<%
+					}
+					} catch (Exception e) {
+					}
+				%>
+
+				<table class="table table-striped table-bordered">
+					<thead>
+						<tr class="infoo">
+							<td style="color: white">Sender</td>
+							<td style="color: white">subject</td>
+							<td style="color: white">Time</td>
+							<td style="color: white">opertaion</td>
+						</tr>
+					</thead>
+
+					<tbody>
+						<%
+							UserMessagesService s = new UserMessagesService();
+
+							List<MessageDto> inbox = s.getUserInbox(userId);
+							for (int i = 0; i < inbox.size(); i++) {
+								String readed = null;
+								if (inbox.get(i).isIs_readed()) {
+									readed = "success";
+								} else {
+									readed = "active";
+								}
+						%>
+						<tr class="<%=readed%>">
+							<td><a
+								href="<%="message.jsp?thredId=" + inbox.get(i).getThreadID()%>"><%=inbox.get(i).getSender().getFirstname() + " (" + inbox.get(i).getThreadMessagesNumber() + ")"%></a></td>
+							<td><%=inbox.get(i).getMessage().getSubject()%></td>
+							<td><%=inbox.get(i).getMessage().getTimestap()%></td>
+							<td>
+								<div class="row">
+									<div class="col-md-3">
+										<form action="home.jsp" method="post">
+											<input type="hidden" id="del" name="del"
+												value="<%=inbox.get(i).getThreadID()%>">
+											<button class="btn btn-danger " type="submit">
+												<span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+											</button>
+										</form>
+									</div>
+									<div class="col-md-3">
+										<form action="home.jsp" method="post">
+											<input type="hidden" id="arc" name="arc"
+												value="<%=inbox.get(i).getThreadID()%>">
+											<button class="btn btn-info">
+												<span class="glyphicon glyphicon-folder-open"
+													aria-hidden="true"></span>
+											</button>
+										</form>
+									</div>
+								</div>
+							</td>
+						</tr>
+						<%
+							}
+						%>
+					</tbody>
+					<tfoot>
+						<tr class="infoo">
+							<td style="color: white">Sender</td>
+							<td style="color: white">subject</td>
+							<td style="color: white">Time</td>
+							<td style="color: white">opertaion</td>
+						</tr>
+					</tfoot>
+				</table>
 			</div>
 		</div>
-
-		<div class="col-md-9">
-
-			<table class="table table-striped table-bordered">
-				<thead>
-					<tr class="infoo">
-						<td style="color: white">Sender</td>
-						<td style="color: white">subject</td>
-						<td style="color: white">Time</td>
-						<td style="color: white">opertaion</td>
-					</tr>
-				</thead>
-
-				<tbody>
-					<%
-						UserMessagesService s = new UserMessagesService();
-
-						List<MessageDto> inbox = s.getUserInbox(userId);
-						for (int i = 0; i < inbox.size(); i++) {
-							String readed = null;
-							if (inbox.get(i).isIs_readed()) {
-								readed = "success";
-							} else {
-								readed = "active";
-							}
-					%>
-					<tr class="<%=readed%>">
-						<td><a
-							href="<%="message.jsp?thredId=" + inbox.get(i).getThreadID()%>"><%=inbox.get(i).getSender().getFirstname() + " (" + inbox.get(i).getThreadMessagesNumber() + ")"%></a></td>
-						<td><%=inbox.get(i).getMessage().getSubject()%></td>
-						<td><%=inbox.get(i).getMessage().getTimestap()%></td>
-						<td>
-							<div class="row">
-								<div class="col-md-3">
-									<form action="home.jsp" method="post">
-										<input type="hidden" id="del" name="del"
-											value="<%=inbox.get(i).getThreadID()%>">
-										<button class="btn btn-danger " type="submit">
-											<span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
-										</button>
-									</form>
-								</div>
-								<div class="col-md-3">
-									<form action="home.jsp" method="post">
-										<input type="hidden" id="arc" name="arc"
-											value="<%=inbox.get(i).getThreadID()%>">
-										<button class="btn btn-info">
-											<span class="glyphicon glyphicon-folder-open"
-												aria-hidden="true"></span>
-										</button>
-									</form>
-								</div>
-							</div>
-						</td>
-					</tr>
-					<%
-						}
-					%>
-				</tbody>
-				<tfoot>
-					<tr class="infoo">
-						<td style="color: white">Sender</td>
-						<td style="color: white">subject</td>
-						<td style="color: white">Time</td>
-						<td style="color: white">opertaion</td>
-					</tr>
-				</tfoot>
-			</table>
-		</div>
-	</div>
 	</div>
 
 	<%

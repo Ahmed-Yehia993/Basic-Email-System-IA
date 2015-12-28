@@ -16,7 +16,7 @@
 	UserServices use = new UserServices();
 	Object userId = session.getAttribute("logedInUserId");
 	String id = userId.toString();
-	
+
 	//out.print(id);
 
 	User currentUser = use.getUserByID(id);
@@ -41,11 +41,8 @@
 			<div class="collapse navbar-collapse"
 				id="bs-example-navbar-collapse-1">
 				<div class="nav navbar-nav"></div>
-				<form class="navbar-form navbar-left" role="search" >
-					<div class="form-group">
-						<input type="text" class="form-control" placeholder="Search">
-					</div>
-					<button type="submit" class="btn btn-default">Submit</button>
+				<form class="navbar-form navbar-left" role="search">
+					<a href="#" id="flip" class="btn btn-default">Search</a>
 				</form>
 				<form class="navbar-form navbar-left " role="profile"
 					action="profile.jsp">
@@ -64,6 +61,35 @@
 			<!-- /.navbar-collapse -->
 		</div>
 		<!-- /.container-fluid --> </nav>
+		<div id="panel" style="display: none;">
+			<form action="search.jsp">
+				<table>
+					<tr>
+
+						<td><label class="control-label">To:</label></td>
+						<td><input type="text" name="msgto" id="msgto"></td>
+						<td><label>From:</label></td>
+						<td><input type="text" name="msgfrom" id="msgfrom"></td>
+
+					</tr>
+
+					<tr>
+						<td><label>Date from:</label></td>
+						<td><input type="text" name="datefrom" id="datefrom"></td>
+						<td><label>Date to:</label></td>
+						<td><input type="text" name="dateto" id="dateto"></td>
+
+					</tr>
+					<tr>
+						<td></td>
+						<td></td>
+						<td><button class="btn btn-info">
+								<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+							</button></td>
+					</tr>
+				</table>
+			</form>
+		</div>
 		<div class="row">
 			<div class="col-md-3">
 				<a href="compose.jsp">
@@ -86,42 +112,43 @@
 						<div class="col-md-3 .col-md-offset-3">
 							<input type="text" class="form-control" name="firstName"
 								id="firstName" placeholder="First Name" style="width: 300px"
-								value="<%=currentUser.getFirstname() %>" required>
+								value="<%=currentUser.getFirstname()%>" required>
 						</div>
 					</div>
 					<div class="form-group ">
-					<label for="secondName"
-						class="col-md-3 .col-md-offset-3 control-label">Last Name</label>
-					<div class="col-md-3 .col-md-offset-3">
-						<input type="text" class="form-control" name="secondName"
-							id="secondName" placeholder="Last Name" style="width: 300px"
-							value="<%=currentUser.getLastname() %>" required>
+						<label for="secondName"
+							class="col-md-3 .col-md-offset-3 control-label">Last Name</label>
+						<div class="col-md-3 .col-md-offset-3">
+							<input type="text" class="form-control" name="secondName"
+								id="secondName" placeholder="Last Name" style="width: 300px"
+								value="<%=currentUser.getLastname()%>" required>
+						</div>
 					</div>
-				</div>
-				<div class="form-group ">
-					<label for="inputEmail3"
-						class="col-md-3 .col-md-offset-3 control-label">Email</label>
-					<div class="col-md-3 .col-md-offset-3">
-						<input type="email" class="form-control" name="inputEmail3"
-							id="inputEmail3" placeholder="Email" style="width: 300px"
-							 value="<%=currentUser.getEmail() %>" required readonly="readonly">
+					<div class="form-group ">
+						<label for="inputEmail3"
+							class="col-md-3 .col-md-offset-3 control-label">Email</label>
+						<div class="col-md-3 .col-md-offset-3">
+							<input type="email" class="form-control" name="inputEmail3"
+								id="inputEmail3" placeholder="Email" style="width: 300px"
+								value="<%=currentUser.getEmail()%>" required readonly="readonly">
+						</div>
 					</div>
-				</div>
-				<div class="form-group ">
-					<label for="inputPhone"
-						class="col-md-3 .col-md-offset-3 control-label">Pone</label>
-					<div class="col-md-3 .col-md-offset-3">
-						<input type="number" class="form-control" name="inputPhone"
-							id="inputPhone" placeholder="phone" style="width: 300px"
-							 value="<%=currentUser.getPhone() %>">
+					<div class="form-group ">
+						<label for="inputPhone"
+							class="col-md-3 .col-md-offset-3 control-label">Pone</label>
+						<div class="col-md-3 .col-md-offset-3">
+							<input type="number" class="form-control" name="inputPhone"
+								id="inputPhone" placeholder="phone" style="width: 300px"
+								value="<%=currentUser.getPhone()%>">
+						</div>
 					</div>
-				</div>
-				<div class="form-group">
-					<div class="col-sm-offset-2 col-sm-10">
-						<button type="submit" class="btn btn-primary" onclick="alert('successfuly updated')">Update</button>
+					<div class="form-group">
+						<div class="col-sm-offset-2 col-sm-10">
+							<button type="submit" class="btn btn-primary"
+								onclick="alert('successfuly updated')">Update</button>
+						</div>
 					</div>
-				</div>
-								
+
 				</form>
 			</div>
 		</div>

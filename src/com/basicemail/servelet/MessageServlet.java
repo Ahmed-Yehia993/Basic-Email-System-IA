@@ -25,7 +25,7 @@ public class MessageServlet extends HttpServlet {
 		HttpSession session = request.getSession();
 		int userid = 0;
 		try {
-			session.getAttribute("logedInUserId");
+			userid = (int) session.getAttribute("logedInUserId");
 		} catch (Exception d) {
 		}
 
@@ -35,24 +35,27 @@ public class MessageServlet extends HttpServlet {
 		}
 
 		Integer type = Integer.parseInt((String) request.getParameter("type"));
+
 		String subject = (String) request.getParameter("subject");
 		String body = (String) request.getParameter("body");
 		String recivers = (String) request.getParameter("recivers");
 		System.out.println(type + " " + subject + " " + body + " " + recivers);
 
 		SendingMessageService sms = new SendingMessageService();
+		String result = "";
 		if (type.intValue() == 1) { // compose
-			response.getWriter().append(sms.composeMessage(new Message(0, userid, 0, subject, body, null), recivers));
+			result = sms.composeMessage(new Message(0, userid, 0, subject, body, null), recivers);
 		} else if (type.intValue() == 2) { // replay
 			int threadid = Integer.parseInt((String) request.getParameter("threadid"));
-			response.getWriter()
-					.append(sms.replayMessage(new Message(0, userid, 0, subject, body, null), recivers, threadid));
+			result = sms.replayMessage(new Message(0, userid, 0, subject, body, null), recivers, threadid);
 		} else if (type.intValue() == 3) { // forward
-			response.getWriter().append(sms.forwardMessage(new Message(0, userid, 0, subject, body, null), recivers));
+			result = sms.forwardMessage(new Message(0, userid, 0, subject, body, null), recivers);
 		} else {
-			// TODO to be handled
-			getServletConfig().getServletContext().getRequestDispatcher("/index.jsp").forward(request, response);
+			result = "Wrong Paramter";
+			// getServletConfig().getServletContext().getRequestDispatcher("/index.jsp").forward(request,
+			// response);
 		}
+		response.sendRedirect("home.jsp?msgresult="+result);
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)

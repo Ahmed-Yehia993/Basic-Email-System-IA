@@ -60,4 +60,7 @@ public class UserMessagesService {
 	public List<MessageDto> searchAboutThreadsBySpecificRange(int userID, String from, String to) throws SQLException {
 		return userMessagesDao.searchAboutThreadsBySpecificRange(userID, from, to);
 	}
+	public static String getAllThreadUsersEmails(int userID, int threadID) throws SQLException {
+		return userMessagesDao.getAllThreadUsersEmails(userID,threadID);
+}
 }

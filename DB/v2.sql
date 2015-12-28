@@ -19,10 +19,10 @@ USE `ia-basic-email`;
 CREATE TABLE IF NOT EXISTS `message` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `sender_id` int(10) unsigned NOT NULL,
-  `thread_msg_id` int(10) unsigned NOT NULL,
+  `thread_msg_id` int(10) unsigned DEFAULT NULL,
   `subject` varchar(200) NOT NULL,
   `body` varchar(2000) NOT NULL,
-  `attachment` varchar(200) NOT NULL,
+  `attachment` varchar(200) DEFAULT NULL,
   `timestap` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   KEY `FK__user` (`sender_id`),

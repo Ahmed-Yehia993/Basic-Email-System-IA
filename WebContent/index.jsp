@@ -67,6 +67,9 @@
 				<button type="button" class="btn btn-link">
 					<a href="signup.jsp">Register a new membership</a>
 				</button>
+				<button type="button" class="btn btn-link">
+					<a href="about.jsp">User manual</a>
+				</button>
 				<br></br>
 			</form>
 		</div>

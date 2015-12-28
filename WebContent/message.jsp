@@ -41,10 +41,7 @@
 				id="bs-example-navbar-collapse-1">
 				<div class="nav navbar-nav"></div>
 				<form class="navbar-form navbar-left" role="search">
-					<div class="form-group">
-						<input type="text" class="form-control" placeholder="Search">
-					</div>
-					<button type="submit" class="btn btn-default">Submit</button>
+					<a href="#" id="flip" class="btn btn-default">Search</a>
 				</form>
 				<form class="navbar-form navbar-left " role="profile"
 					action="profile.jsp">
@@ -63,6 +60,33 @@
 			<!-- /.navbar-collapse -->
 		</div>
 		<!-- /.container-fluid --> </nav>
+		<div id="panel" style="display: none;">
+			<form action="search.jsp">
+				<table>
+					<tr>
+						<td><label class="control-label">To:</label></td>
+						<td><input type="text" name="msgto" id="msgto"></td>
+						<td><label>From:</label></td>
+						<td><input type="text" name="msgfrom" id="msgfrom"></td>
+					</tr>
+
+					<tr>
+						
+						<td><label>Date from:</label></td>
+						<td><input type="text" name="datefrom" id="datefrom"></td>
+						<td><label>Date to:</label></td>
+						<td><input type="text" name="dateto" id="dateto"></td>
+					</tr>
+					<tr>
+						<td></td>
+						<td></td>
+						<td><button class="btn btn-info">
+								<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+							</button></td>
+					</tr>
+				</table>
+			</form>
+		</div>
 		<div class="row">
 			<div class="col-md-3">
 				<a href="compose.jsp">
@@ -92,7 +116,7 @@
 				%>
 
 				<div class="msg">
-					<div class="row">
+					<div class="row" style="height: auto;">
 						<div class="col-md-9">
 							<h5>
 								<strong>From: <%=msgs.get(i).getSender()%></strong>
@@ -106,15 +130,18 @@
 						<strong>TO: </strong><%=msgs.get(i).getReceiver()%>
 					</h5>
 					<br>
-					<p><%=msgs.get(i).getMessage().getBody()%></p>
+					<textarea style="width: 100% ;" rows="7" readonly="readonly"><%=msgs.get(i).getMessage().getBody()%></textarea>
+					
 
 				</div>
 				<%
 					}
 				%>
-				
-				<a href="<%="compose.jsp?type=2&threadid="+thredID %>"><button class="btn btn-primary">Reply</button></a>
-				<a href="<%="compose.jsp?type=3&threadid="+thredID %>"><button class="btn btn-primary">Forward</button></a>
+
+				<a href="<%="compose.jsp?type=2&threadid=" + thredID%>"><button
+						class="btn btn-primary">Reply</button></a> <a
+					href="<%="compose.jsp?type=3&threadid=" + thredID%>"><button
+						class="btn btn-primary">Forward</button></a>
 			</div>
 		</div>
 </body>

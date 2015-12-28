@@ -1,4 +1,5 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<%@page import="com.basicemail.service.UserServices"%>
 <%@page import="com.basicemail.service.UserMessagesService"%>
 <%@page import="com.basicemail.entity.ThreadMessageDto"%>
 <%@page import="java.util.List"%>
@@ -9,9 +10,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link href="resources/css/bootstrap.min.css" rel="stylesheet">
 <link href="resources/style.css" rel="stylesheet">
-
+<script src="resources/js/bootstrap.min.js"></script>
+<script src="resources/js/jquery-1.11.3.min.js"></script>
 <script type="text/javascript" src="resources/js/animation.js"></script>
-<title>home</title>
+<title>compose</title>
 
 </head>
 <body class="login_body">
@@ -35,10 +37,7 @@
 				id="bs-example-navbar-collapse-1">
 				<div class="nav navbar-nav"></div>
 				<form class="navbar-form navbar-left" role="search">
-					<div class="form-group">
-						<input type="text" class="form-control" placeholder="Search">
-					</div>
-					<button type="submit" class="btn btn-default">Submit</button>
+					<a href="#" id="flip" class="btn btn-default">Search</a>
 				</form>
 				<form class="navbar-form navbar-left " role="profile"
 					action="profile.jsp">
@@ -57,6 +56,33 @@
 			<!-- /.navbar-collapse -->
 		</div>
 		<!-- /.container-fluid --> </nav>
+		<div id="panel" style="display: none;">
+			<form action="search.jsp">
+				<table>
+					<tr>
+						<td><label class="control-label">To:</label></td>
+						<td><input type="text" name="msgto" id="msgto" ></td>
+						<td><label>From:</label></td>
+						<td><input type="text" name="msgfrom" id="msgfrom"></td>
+					</tr>
+
+					<tr>
+						<td><label>Date from:</label></td>
+						<td><input type="text" name="datefrom" id="datefrom"></td>
+						<td><label>Date to:</label></td>
+						<td><input type="text" name="dateto" id="dateto"></td>
+
+					</tr>
+					<tr>
+						<td></td>
+						<td></td>
+						<td><button class="btn btn-info">
+								<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+							</button></td>
+					</tr>
+				</table>
+			</form>
+		</div>
 		<div class="row">
 			<div class="col-md-3">
 
@@ -77,6 +103,7 @@
 					String subjectString = "";
 					String bodyString = "";
 					String toString = "";
+					UserMessagesService service = new UserMessagesService();
 					//threadid
 					if (type != 1) {
 
@@ -86,9 +113,11 @@
 							response.sendRedirect("/home.jsp");
 						} else
 							threadid = Integer.parseInt(parmThreadid);
-
+						if(type ==2){
+							toString = service.getAllThreadUsersEmails(userId,Integer.parseInt(parmThreadid));
+						}
 						if (type == 3) {
-							UserMessagesService service = new UserMessagesService();
+							
 							String tmp = "";
 							List<ThreadMessageDto> list = service.getAllMessagesOfThreadByThreadID(userId, threadid);
 							for (int i = 0; i < list.size(); i++) {
@@ -108,20 +137,17 @@
 						type="hidden" value="<%=threadid%>" name="threadid">
 					<table>
 						<tr>
-							<td>To</td>
 							<td style="width: 100%;"><input type="text" name="recivers"
 								value="<%=toString%>" class="form-control" placeholder="TO"
 								aria-describedby="basic-addon1"></td>
 						</tr>
 
 						<tr>
-							<td>subject</td>
 							<td style="width: 100%;"><input type="text" name="subject"
 								value="<%=subjectString%>" class="form-control"
 								placeholder="Subject" aria-describedby="basic-addon1"></td>
 						</tr>
 						<tr>
-							<td>Message</td>
 							<td style="width: 100%;"><textarea rows="14" cols="110"
 									name="body" placeholder="Message"><%=bodyString%></textarea></td>
 						</tr>
@@ -129,7 +155,7 @@
 
 						</tr>
 					</table>
-					<button type="submit" class="btn btn-primary" style="float: right;">
+					<button type="submit" class="btn btn-primary" style="float: left;">
 						<%
 							out.print(type == 1 ? "Send" : (type == 2 ? "Reply" : "Forward"));
 						%>
