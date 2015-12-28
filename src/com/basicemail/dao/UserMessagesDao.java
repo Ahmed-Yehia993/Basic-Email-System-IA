@@ -347,9 +347,9 @@ public class UserMessagesDao {
 
 			while (rs.next())
 				if (rs.isLast())
-					receiver = rs.getString("email");
+					receiver += rs.getString("email");
 				else
-					receiver = rs.getString("email") + " , ";
+					receiver += rs.getString("email") + " , ";
 
 			return receiver;
 		} finally {
@@ -383,7 +383,7 @@ public class UserMessagesDao {
 
 				String receiver = getAllMessageReceivers(msgID, threadID);
 				Message message = getMessageBYID(msgID);
-				String sender = String.valueOf(message.getSenderId());
+				String sender = getUserByID(message.getSenderId()).getEmail();
 
 				ThreadMessageDto messageDto = new ThreadMessageDto(threadID, receiver, sender, message);
 				list.add(messageDto);
