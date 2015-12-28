@@ -59,8 +59,7 @@ public class LoginServelet extends HttpServlet {
 				}
 			} catch (Exception e) {
 			}
-
-			getServletConfig().getServletContext().getRequestDispatcher("/home.jsp").forward(request, response);
+			response.sendRedirect("home.jsp");
 		}
 	}
 
