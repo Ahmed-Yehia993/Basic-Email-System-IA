@@ -23,7 +23,6 @@
 			if (cookie1.getName().equals("user")) {
 				response.sendRedirect("home.jsp");
 			} else {
-			}
 	%>
 	<div class="container">
 		<h1 style="margin-left: 28%; margin-top: 11%;">
@@ -75,6 +74,7 @@
 		</div>
 	</div>
 	<%
+		}
 		}
 	%>
 </body>

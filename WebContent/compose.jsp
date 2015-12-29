@@ -189,11 +189,14 @@
 
 									for (int i = 0; i < lis.length; i++) {
 										String str = lis[i];
+										//out.print(str);
 							%>
 							<tr>
-								<td style="width: 100%;"><input type="checkbox"
-									name="recivers" value="<%=str%>" class="form-control"
-									placeholder="TO" aria-describedby="basic-addon1" checked>
+								<td style="width: 100%;">
+								<input type="checkbox"
+									name="recivers" value="<%=str%>"
+									 checked>
+									 <label><%=str %></label>
 								</td>
 							</tr>
 							<%

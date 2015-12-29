@@ -135,7 +135,7 @@
 					</div>
 					<div class="form-group ">
 						<label for="inputPhone"
-							class="col-md-3 .col-md-offset-3 control-label">Pone</label>
+							class="col-md-3 .col-md-offset-3 control-label">Phone</label>
 						<div class="col-md-3 .col-md-offset-3">
 							<input type="number" class="form-control" name="inputPhone"
 								id="inputPhone" placeholder="phone" style="width: 300px"
