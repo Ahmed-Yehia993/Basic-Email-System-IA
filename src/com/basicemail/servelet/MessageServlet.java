@@ -38,24 +38,33 @@ public class MessageServlet extends HttpServlet {
 
 		String subject = (String) request.getParameter("subject");
 		String body = (String) request.getParameter("body");
-		String recivers = (String) request.getParameter("recivers");
-		System.out.println(type + " " + subject + " " + body + " " + recivers);
+
+		//System.out.println(type + " " + subject + " " + body + " " + recivers);
 
 		SendingMessageService sms = new SendingMessageService();
 		String result = "";
 		if (type.intValue() == 1) { // compose
+			String recivers = (String) request.getParameter("recivers");
 			result = sms.composeMessage(new Message(0, userid, 0, subject, body, null), recivers);
 		} else if (type.intValue() == 2) { // replay
+			String[] trecivers = request.getParameterValues("recivers");
+			String recivers = "";
+			for (int i = 0; i < trecivers.length; i++) {
+				recivers += trecivers[i];
+				if (i != trecivers.length - 1)
+					recivers += ",";
+			}
 			int threadid = Integer.parseInt((String) request.getParameter("threadid"));
 			result = sms.replayMessage(new Message(0, userid, 0, subject, body, null), recivers, threadid);
 		} else if (type.intValue() == 3) { // forward
+			String recivers = (String) request.getParameter("recivers");
 			result = sms.forwardMessage(new Message(0, userid, 0, subject, body, null), recivers);
 		} else {
 			result = "Wrong Paramter";
 			// getServletConfig().getServletContext().getRequestDispatcher("/index.jsp").forward(request,
 			// response);
 		}
-		response.sendRedirect("home.jsp?msgresult="+result);
+		response.sendRedirect("home.jsp?msgresult=" + result);
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)

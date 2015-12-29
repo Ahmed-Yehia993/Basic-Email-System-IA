@@ -13,7 +13,50 @@
 <script src="resources/js/bootstrap.min.js"></script>
 <script src="resources/js/jquery-1.11.3.min.js"></script>
 <script type="text/javascript" src="resources/js/animation.js"></script>
-<title>compose</title>
+
+<%
+	Integer userId = (Integer) session.getAttribute("logedInUserId");
+	String parm = (String) request.getParameter("type");
+	int type = Integer.parseInt((parm == null ? "1" : parm));
+	int threadid = 0;
+	String subjectString = "";
+	String bodyString = "";
+	String toString = "";
+	String[] lis = null;
+	UserMessagesService service = new UserMessagesService();
+	//threadid
+	if (type != 1) {
+
+		String parmThreadid = (String) request.getParameter("threadid");
+		if (parmThreadid == null) {
+			out.print("<script type='text/javascript'>alert('Error will redirect to home')</script>");
+			response.sendRedirect("/home.jsp");
+		} else
+			threadid = Integer.parseInt(parmThreadid);
+		if (type == 2) {
+			toString = service.getAllThreadUsersEmails(userId, Integer.parseInt(parmThreadid));
+			lis = toString.split(",");
+		}
+		if (type == 3) {
+
+			String tmp = "";
+			List<ThreadMessageDto> list = service.getAllMessagesOfThreadByThreadID(userId, threadid);
+			for (int i = 0; i < list.size(); i++) {
+				ThreadMessageDto tmd = list.get(i);
+				bodyString += tmp + "From : " + tmd.getSender() + "\n";
+				bodyString += tmp + "Subject : " + tmd.getMessage().getSubject() + "\n";
+				bodyString += tmp + "Body : " + tmd.getMessage().getBody() + "\n";
+				tmp += "  ";
+			}
+			bodyString += "-----------------------------------------------";
+		}
+	}
+%>
+<title>
+	<%
+		out.print(type == 1 ? "Send" : (type == 2 ? "Reply" : "Forward") + " Message");
+	%>
+</title>
 
 </head>
 <body class="login_body">
@@ -61,7 +104,7 @@
 				<table>
 					<tr>
 						<td><label class="control-label">To:</label></td>
-						<td><input type="text" name="msgto" id="msgto" ></td>
+						<td><input type="text" name="msgto" id="msgto"></td>
 						<td><label>From:</label></td>
 						<td><input type="text" name="msgfrom" id="msgfrom"></td>
 					</tr>
@@ -96,72 +139,101 @@
 			</div>
 			<div class="col-md-9">
 				<%
-					Integer userId = (Integer) session.getAttribute("logedInUserId");
-					String parm = (String) request.getParameter("type");
-					int type = Integer.parseInt((parm == null ? "1" : parm));
-					int threadid = 0;
-					String subjectString = "";
-					String bodyString = "";
-					String toString = "";
-					UserMessagesService service = new UserMessagesService();
-					//threadid
-					if (type != 1) {
+					// 					Integer userId = (Integer) session.getAttribute("logedInUserId");
+					// 					String parm = (String) request.getParameter("type");
+					// 					int type = Integer.parseInt((parm == null ? "1" : parm));
+					// 					int threadid = 0;
+					// 					String subjectString = "";
+					// 					String bodyString = "";
+					// 					String toString = "";
+					// 					UserMessagesService service = new UserMessagesService();
+					// 					//threadid
+					// 					if (type != 1) {
 
-						String parmThreadid = (String) request.getParameter("threadid");
-						if (parmThreadid == null) {
-							out.print("<script type='text/javascript'>alert('Error will redirect to home')</script>");
-							response.sendRedirect("/home.jsp");
-						} else
-							threadid = Integer.parseInt(parmThreadid);
-						if(type ==2){
-							toString = service.getAllThreadUsersEmails(userId,Integer.parseInt(parmThreadid));
-						}
-						if (type == 3) {
-							
-							String tmp = "";
-							List<ThreadMessageDto> list = service.getAllMessagesOfThreadByThreadID(userId, threadid);
-							for (int i = 0; i < list.size(); i++) {
-								ThreadMessageDto tmd = list.get(i);
-								bodyString += tmp + "From : " + tmd.getSender() + "\n";
-								bodyString += tmp + "Subject : " + tmd.getMessage().getSubject() + "\n";
-								bodyString += tmp + "Body : " + tmd.getMessage().getBody() + "\n";
-								tmp += "  ";
-							}
-							bodyString += "-----------------------------------------------";
-						}
-					}
+					// 						String parmThreadid = (String) request.getParameter("threadid");
+					// 						if (parmThreadid == null) {
+					// 							out.print("<script type='text/javascript'>alert('Error will redirect to home')</script>");
+					// 							response.sendRedirect("/home.jsp");
+					// 						} else
+					// 							threadid = Integer.parseInt(parmThreadid);
+					// 						if(type ==2){
+					// 							toString = service.getAllThreadUsersEmails(userId,Integer.parseInt(parmThreadid));
+					// 						}
+					// 						if (type == 3) {
+
+					// 							String tmp = "";
+					// 							List<ThreadMessageDto> list = service.getAllMessagesOfThreadByThreadID(userId, threadid);
+					// 							for (int i = 0; i < list.size(); i++) {
+					// 								ThreadMessageDto tmd = list.get(i);
+					// 								bodyString += tmp + "From : " + tmd.getSender() + "\n";
+					// 								bodyString += tmp + "Subject : " + tmd.getMessage().getSubject() + "\n";
+					// 								bodyString += tmp + "Body : " + tmd.getMessage().getBody() + "\n";
+					// 								tmp += "  ";
+					// 							}
+					// 							bodyString += "-----------------------------------------------";
+					// 						}
+					// 					}
 				%>
 
 				<form action="MessageServlet">
 					<input type="hidden" value="<%=type%>" name="type"> <input
 						type="hidden" value="<%=threadid%>" name="threadid">
 					<table>
-						<tr>
-							<td style="width: 100%;"><input type="text" name="recivers"
-								value="<%=toString%>" class="form-control" placeholder="TO"
-								aria-describedby="basic-addon1"></td>
-						</tr>
-
-						<tr>
-							<td style="width: 100%;"><input type="text" name="subject"
-								value="<%=subjectString%>" class="form-control"
-								placeholder="Subject" aria-describedby="basic-addon1"></td>
-						</tr>
-						<tr>
-							<td style="width: 100%;"><textarea rows="14" cols="110"
-									name="body" placeholder="Message"><%=bodyString%></textarea></td>
-						</tr>
-						<tr>
-
-						</tr>
-					</table>
-					<button type="submit" class="btn btn-primary" style="float: left;">
-						<%
-							out.print(type == 1 ? "Send" : (type == 2 ? "Reply" : "Forward"));
-						%>
-					</button>
 
 
+
+
+						<table>
+							<%
+								if (type == 2) {
+
+									for (int i = 0; i < lis.length; i++) {
+										String str = lis[i];
+							%>
+							<tr>
+								<td style="width: 100%;"><input type="checkbox"
+									name="recivers" value="<%=str%>" class="form-control"
+									placeholder="TO" aria-describedby="basic-addon1" checked>
+								</td>
+							</tr>
+							<%
+								}
+								} else {
+							%>
+
+							<tr>
+								<td style="width: 100%;"><input type="text" name="recivers"
+									value="<%=toString%>" class="form-control" placeholder="TO"
+									aria-describedby="basic-addon1"></td>
+							</tr>
+							<%
+								}
+							%>
+
+
+
+
+
+
+
+							<tr>
+								<td style="width: 100%;"><input type="text" name="subject"
+									value="<%=subjectString%>" class="form-control"
+									placeholder="Subject" aria-describedby="basic-addon1"></td>
+							</tr>
+							<tr>
+								<td style="width: 100%;"><textarea rows="14" cols="110"
+										name="body" placeholder="Message"><%=bodyString%></textarea></td>
+							</tr>
+							<tr>
+
+							</tr>
+						</table>
+						<button type="submit" class="btn btn-primary" style="float: left;">
+							<%
+								out.print(type == 1 ? "Send" : (type == 2 ? "Reply" : "Forward"));
+							%>
+						</button>
 				</form>
 			</div>
 		</div>
